@@ -1,0 +1,23 @@
+{
+    "extends": ["eslint:recommended", "next", "next/core-web-vitals"],
+    "plugins": ["prettier", "import"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "semi": ["error", "always"],
+        "import/order": [
+            "error",
+            {
+                "newlines-between": "always"
+            }
+        ],
+        "prettier/prettier": "error"
+    }
+}
