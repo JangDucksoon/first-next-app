@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import SearchFilter from '@/component/post/searchFilter';
 import { SearchFilterType } from '@/type/post/searchFilter';
-import PostTable, { PostTableSkeleton } from '@/component/post/table';
+import { PostTable, PostTableSkeleton } from '@/component/post/table';
 
 export default async function Page(props: { searchParams: Promise<SearchFilterType> }) {
     let { term } = await props.searchParams;

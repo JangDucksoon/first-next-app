@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 
 
 import { SearchFilterType } from '@/type/post/searchFilter';
 
-export default async function PostTable({ term }: SearchFilterType) {
+export async function PostTable({ term }: SearchFilterType) {
     await new Promise<>((resolve) => setTimeout(resolve, 3000));
     const response = await fetch(`http://localhost:3000/data/posts.json`);
     const list = await response.json();
@@ -13,16 +13,16 @@ export default async function PostTable({ term }: SearchFilterType) {
             <Table hoverable>
                 <TableHead>
                     <TableRow>
-                        <TableHeadCell>ID</TableHeadCell>
-                        <TableHeadCell>Title</TableHeadCell>
-                        <TableHeadCell>Contents</TableHeadCell>
+                        <TableHeadCell className="text-center">ID</TableHeadCell>
+                        <TableHeadCell className="text-center">Title</TableHeadCell>
+                        <TableHeadCell className="text-center">Contents</TableHeadCell>
                     </TableRow>
                 </TableHead>
                 <TableBody className="divide-y divide-gray-200">
                     {rows.map((row) => (
                         <TableRow key={row.id} className="cursor-pointer hover:bg-blue-100">
-                            <TableCell>{row.id}</TableCell>
-                            <TableCell>{row.title}</TableCell>
+                            <TableCell className="text-center">{row.id}</TableCell>
+                            <TableCell className="text-center">{row.title}</TableCell>
                             <TableCell>{row.content}</TableCell>
                         </TableRow>
                     ))}
@@ -35,25 +35,35 @@ export default async function PostTable({ term }: SearchFilterType) {
 export function PostTableSkeleton() {
     const array = new Array(10).fill(null);
     return (
-        <div className="cursor-not-allowed">
-            <Table>
+        <div>
+            <Table hoverable={false}>
                 <TableHead>
-                    <TableRow>
-                        <TableHeadCell>&nbsp;</TableHeadCell>
-                        <TableHeadCell>&nbsp;</TableHeadCell>
-                        <TableHeadCell>&nbsp;</TableHeadCell>
+                    <TableRow className="text-center">
+                        <TableHeadCell>ID</TableHeadCell>
+                        <TableHeadCell>Title</TableHeadCell>
+                        <TableHeadCell>Contents</TableHeadCell>
                     </TableRow>
                 </TableHead>
                 <TableBody className="divide-y divide-gray-200">
                     {array.map((_, idx) => (
-                        <TableRow key={idx} className="cursor-pointer hover:bg-blue-100">
-                            <TableCell>&nbsp;</TableCell>
-                            <TableCell>&nbsp;</TableCell>
-                            <TableCell>&nbsp;</TableCell>
+                        <TableRow key={idx}>
+                            <TableCell>
+                                <PurseCell />
+                            </TableCell>
+                            <TableCell>
+                                <PurseCell />
+                            </TableCell>
+                            <TableCell>
+                                <PurseCell />
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
         </div>
     );
+}
+
+export function PurseCell() {
+    return <div className="h-6 animate-pulse rounded bg-gray-300" />;
 }

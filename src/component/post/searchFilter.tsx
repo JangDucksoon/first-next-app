@@ -42,7 +42,6 @@ export default function SearchFilter({ helperText }: SearchFilterType) {
     }, 500);
 
     useEffect(() => {
-        console.log(helperText);
         setSearch({
             message: helperText || 'Please enter a search term.',
             term: '',
