@@ -1,31 +1,43 @@
 import { Suspense } from 'react';
+import { Metadata } from 'next';
 
-import SearchFilter from '@/component/post/searchFilter';
-import { SearchFilterType } from '@/type/post/searchFilter';
+import SearchFilter from '@/component/post/search-filter';
+import { SearchFilterType } from '@/type/post/postType';
 import { PostTable, PostTableSkeleton } from '@/component/post/table';
+import ViewToggle from '@/component/post/view-toggle';
+import PostCard, { PostCardSkeleton } from '@/component/post/post-card';
+
+export const metadata: Metadata = {
+    title: 'post',
+    description: 'post pages....'
+};
 
 export default async function Page(props: { searchParams: Promise<SearchFilterType> }) {
-    let { term } = await props.searchParams;
-    let helperText = '';
+    let { term, view } = (await props.searchParams) || '';
 
-    if (term) {
-        helperText = 'Search completed successfully.';
-    } else {
-        term = '';
-    }
+    view = view !== 'table' ? 'card' : view;
 
     return (
         <div className="min-h-screen bg-gray-100 p-6">
             <div className="mx-auto max-w-4xl rounded-2xl bg-white p-6 shadow-lg">
-                <h1 className="mb-6 text-3xl font-bold">POST</h1>
-
-                <div className="mb-6">
-                    <SearchFilter key={term} helperText={helperText} />
+                <div className="flex justify-between">
+                    <h1 className="mb-6 text-3xl font-bold">POST</h1>
+                    <ViewToggle view={view} />
                 </div>
 
-                <Suspense key={term} fallback={<PostTableSkeleton />}>
-                    <PostTable term={term} />
-                </Suspense>
+                <div>
+                    <SearchFilter />
+                    {view === 'table' ? (
+                        <Suspense key={term + view} fallback={<PostTableSkeleton />}>
+                            <PostTable term={term} />
+                        </Suspense>
+                    ) : null}
+                    {view === 'card' ? (
+                        <Suspense key={term + view} fallback={<PostCardSkeleton />}>
+                            <PostCard />
+                        </Suspense>
+                    ) : null}
+                </div>
             </div>
         </div>
     );
