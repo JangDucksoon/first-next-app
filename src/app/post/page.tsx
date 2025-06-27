@@ -5,7 +5,8 @@ import SearchFilter from '@/component/post/search-filter';
 import { SearchFilterType } from '@/type/post/postType';
 import { PostTable, PostTableSkeleton } from '@/component/post/table';
 import ViewToggle from '@/component/post/view-toggle';
-import PostCard, { PostCardSkeleton } from '@/component/post/post-card';
+import PostCards from '@/component/post/post-card';
+import { PostCardSkeleton } from '@/component/post/client-components';
 
 export const metadata: Metadata = {
     title: 'post',
@@ -34,7 +35,7 @@ export default async function Page(props: { searchParams: Promise<SearchFilterTy
                     ) : null}
                     {view === 'card' ? (
                         <Suspense key={term + view} fallback={<PostCardSkeleton />}>
-                            <PostCard />
+                            <PostCards term={term} />
                         </Suspense>
                     ) : null}
                 </div>
