@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: { searchParams: Promise<SearchFilterType> }) {
-    await new Promise<>((resolve) => setTimeout(resolve, 500));
+    await new Promise<>((resolve) => setTimeout(resolve, 1000));
     let { term, view } = (await props.searchParams) || '';
     view = view !== 'table' ? 'card' : view;
 

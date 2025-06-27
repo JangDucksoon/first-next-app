@@ -1,4 +1,4 @@
-import { HelperText } from 'flowbite-react';
+import { Badge, HelperText } from 'flowbite-react';
 import React from 'react';
 import Link from 'next/link';
 
@@ -22,9 +22,7 @@ export default async function PostCards({ term }: SearchFilterType) {
                 <HelperText color={term ? 'success' : 'gray'}>{term ? 'Search completed successfully.' : 'Please enter a search term.'}</HelperText>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {cards.map((card) => (
-                    <PostCard key={card.id} {...card} />
-                ))}
+                {cards.length === 0 ? <div>sorry, we can not find post by your term</div> : cards.map((card) => <PostCard key={card.id} {...card} />)}
             </div>
         </>
     );
@@ -37,17 +35,17 @@ export function PostCard(card: postType) {
                 <CardItem translateZ="100" className="w-full text-xl font-bold text-neutral-600 dark:text-white">
                     <div className="flex justify-between">
                         <span>{card.title}</span>
-                        <span className="relative inline-block rounded border border-gray-300 px-2 py-1 text-sm">{card.category}</span>
+                        <Badge color="success">{card.category}</Badge>
                     </div>
                 </CardItem>
-                <CardItem as="p" translateZ="40" className="mt-2 max-w-sm text-sm text-neutral-500 dark:text-neutral-300">
+                <CardItem as="p" translateZ="60" className="mt-2 max-w-sm text-sm text-neutral-500 dark:text-neutral-300">
                     {card.summary}
                 </CardItem>
                 <CardItem translateZ="60" className="mt-4 w-full">
                     {card.content}
                 </CardItem>
                 <CardItem translateZ="50" rotateX={-10} rotateZ={20} className="mt-4 w-full">
-                    <Link href="#">
+                    <Link href="http://localhost:3000/post/1">
                         <FallbackImage src={card.imageSrc} />
                     </Link>
                 </CardItem>

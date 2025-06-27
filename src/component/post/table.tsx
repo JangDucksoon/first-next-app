@@ -2,6 +2,7 @@ import { HelperText, Table, TableBody, TableCell, TableHead, TableHeadCell, Tabl
 import React from 'react';
 
 import { SearchFilterType } from '@/type/post/postType';
+import Link from 'next/link';
 
 export async function PostTable({ term }: SearchFilterType) {
     await new Promise<>((resolve) => setTimeout(resolve, 500));
@@ -32,12 +33,14 @@ export async function PostTable({ term }: SearchFilterType) {
                     </TableHead>
                     <TableBody className="divide-y divide-gray-200">
                         {rows.map((row, idx) => (
-                            <TableRow key={idx} className="cursor-pointer hover:bg-blue-100">
+                            <TableRow key={idx} className="hover:bg-blue-100">
                                 <TableCell className="text-center">
                                     <span className="truncate">{row.id}</span>
                                 </TableCell>
                                 <TableCell className="text-center">
-                                    <span className="block max-w-full truncate">{row.title}</span>
+                                    <Link href={`http://localhost:3000/post/${row.id}`} className="underline">
+                                        <span className="block max-w-full truncate hover:animate-bounce">{row.title}</span>
+                                    </Link>
                                 </TableCell>
                                 <TableCell>
                                     <span className="block max-w-full truncate">{row.content}</span>
