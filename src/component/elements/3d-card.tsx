@@ -7,26 +7,28 @@ import { cn } from '@/lib/utils';
 const MouseEnterContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined>(undefined);
 
 export const CardContainer = ({ children, className, containerClassName }: { children?: React.ReactNode; className?: string; containerClassName?: string }) => {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
     const [isMouseEntered, setIsMouseEntered] = useState(false);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!containerRef.current) return;
-        const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+        const el = containerRef.current;
+        if (!el) return;
+        const { left, top, width, height } = el.getBoundingClientRect();
         const x = (e.clientX - left - width / 2) / 25;
         const y = (e.clientY - top - height / 2) / 25;
-        containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        el.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
     };
 
-    const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleMouseEnter = () => {
         setIsMouseEntered(true);
         if (!containerRef.current) return;
     };
 
-    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!containerRef.current) return;
+    const handleMouseLeave = () => {
+        const el = containerRef.current;
+        if (!el) return;
         setIsMouseEntered(false);
-        containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        el.style.transform = `rotateY(0deg) rotateX(0deg)`;
     };
     return (
         <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
@@ -80,7 +82,7 @@ export const CardItem = ({
     rotateZ?: number | string;
     [key: string]: any;
 }) => {
-    const ref = useRef<HTMLDivElement>(null);
+    const ref = useRef<HTMLDivElement>(null!);
     const [isMouseEntered] = useMouseEnter();
 
     useEffect(() => {

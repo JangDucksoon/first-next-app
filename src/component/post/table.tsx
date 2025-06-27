@@ -1,4 +1,5 @@
 import { HelperText, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
+import React from 'react';
 
 import { SearchFilterType } from '@/type/post/postType';
 

@@ -5,8 +5,7 @@ import SearchFilter from '@/component/post/search-filter';
 import { SearchFilterType } from '@/type/post/postType';
 import { PostTable, PostTableSkeleton } from '@/component/post/table';
 import ViewToggle from '@/component/post/view-toggle';
-import PostCards from '@/component/post/post-card';
-import { PostCardSkeleton } from '@/component/post/client-components';
+import PostCards, { PostCardSkeleton } from '@/component/post/post-card';
 
 export const metadata: Metadata = {
     title: 'post',
@@ -14,8 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: { searchParams: Promise<SearchFilterType> }) {
+    await new Promise<>((resolve) => setTimeout(resolve, 500));
     let { term, view } = (await props.searchParams) || '';
-
     view = view !== 'table' ? 'card' : view;
 
     return (
