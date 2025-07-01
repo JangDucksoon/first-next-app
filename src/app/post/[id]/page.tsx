@@ -1,10 +1,14 @@
-import { FloatingLabel } from 'flowbite-react';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
 
 import { getPost } from '../../../../public/api/post-api';
 
 import { postType } from '@/type/post/postType';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/component/elements/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/component/elements/card';
+import { ScrollArea } from '@/component/elements/scroll-area';
+import { Separator } from '@/component/elements/separator';
+import { Label } from '@/component/elements/label';
 
 export default async function Page(props: { params: Promise<postType> }) {
     const { id } = (await props.params) || 0;
@@ -16,37 +20,56 @@ export default async function Page(props: { params: Promise<postType> }) {
     return (
         <div className="min-h-screen bg-gray-100 p-6">
             <div className="mx-auto max-w-4xl rounded-2xl bg-white p-6 shadow-lg">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <FloatingLabel disabled variant="outlined" label="ID" defaultValue={post.id} />
-                    <Select defaultValue={post.category}>
-                        <SelectTrigger className="peer w-full appearance-none rounded-lg border border-gray-300 bg-transparent py-5.5">
-                            <SelectValue placeholder="Category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Categories</SelectLabel>
-                                <SelectSeparator />
-                                <SelectItem value="React">React</SelectItem>
-                                <SelectItem value="프론트엔드">Front End</SelectItem>
-                                <SelectItem value="협업 도구">협업 도구</SelectItem>
-                                <SelectItem value="Node.js">Node.js</SelectItem>
-                                <SelectItem value="DevOps">DevOps</SelectItem>
-                                <SelectItem value="프로그래밍 언어">Programming Language</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <FloatingLabel variant="outlined" label="Title" defaultValue={post.title} />
-                    <FloatingLabel variant="outlined" label="Author" defaultValue={post.author} />
-                    <div className="md:col-span-2">
-                        <FloatingLabel variant="outlined" label="Summary" defaultValue={post.summary} />
-                    </div>
-                    <div className="md:col-span-2">
-                        <FloatingLabel variant="outlined" label="content" defaultValue={post.content} />
-                    </div>
-                    <div className="md:col-span-2">
-                        <FloatingLabel variant="outlined" label="Image-URL" defaultValue={post.imageSrc} />
-                    </div>
-                </div>
+                <Card className="mx-auto max-w-3xl space-y-6">
+                    <CardHeader>
+                        <CardTitle>Post Detail</CardTitle>
+                    </CardHeader>
+
+                    <CardContent className="space-y-4">
+                        <div className="relative h-60 w-full overflow-hidden rounded-xl">
+                            <Image src={post.imageSrc || '/images/no-image.svg'} alt={post.title} fill className="object-fit" priority />
+                        </div>
+
+                        <Separator />
+
+                        <ScrollArea className="h-[400px] p-2">
+                            <dl className="grid grid-cols-1 gap-x-4 gap-y-6 md:grid-cols-2">
+                                <div>
+                                    <Label>ID</Label>
+                                    <p className="mt-1 text-sm text-gray-700">{post.id}</p>
+                                </div>
+                                <div>
+                                    <Label>Category</Label>
+                                    <p className="mt-1 text-sm text-gray-700">{post.category}</p>
+                                </div>
+                                <div>
+                                    <Label>Title</Label>
+                                    <p className="mt-1 text-sm text-gray-700">{post.title}</p>
+                                </div>
+                                <div>
+                                    <Label>Author</Label>
+                                    <p className="mt-1 text-sm text-gray-700">{post.author}</p>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <Label>Summary</Label>
+                                    <p className="mt-1 text-sm text-gray-700">{post.summary}</p>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <Label>Content</Label>
+                                    <p className="mt-1 text-sm whitespace-pre-wrap text-gray-700">{post.content}</p>
+                                </div>
+
+                                <Separator className="md:col-span-2" />
+
+                                <div className="text-right md:col-span-2">
+                                    <Link href={`/post/${post.id}/modify`} className="rounded-xl px-4 py-2 font-normal">
+                                        수정 →
+                                    </Link>
+                                </div>
+                            </dl>
+                        </ScrollArea>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );
