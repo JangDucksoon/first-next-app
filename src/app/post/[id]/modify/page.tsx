@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getPost } from '../../../../../public/api/post-api';
 
 import { postType } from '@/type/post/postType';
-import PostDetail from '@/component/post/post-detail';
+import PostModify from '@/component/post/post-modify';
 
 export default async function Page(props: { params: Promise<postType> }) {
     const { id } = (await props.params) || 0;
@@ -15,7 +15,7 @@ export default async function Page(props: { params: Promise<postType> }) {
     return (
         <div className="min-h-screen bg-gray-100 p-6">
             <div className="mx-auto max-w-4xl rounded-2xl bg-white p-6 shadow-lg">
-                <PostDetail {...post} />
+                <PostModify {...post} />
             </div>
         </div>
     );
