@@ -61,9 +61,9 @@ export default async function Page(props: { params: Promise<postType> }) {
 
                                 <Separator className="md:col-span-2" />
 
-                                <div className="text-right md:col-span-2">
-                                    <Link href={`/post/${post.id}/modify`} className="rounded-xl px-4 py-2 font-normal">
-                                        수정 →
+                                <div className="text-center md:col-span-2 md:text-right">
+                                    <Link href={`/post/${post.id}/modify`} className="rounded-xl px-4 py-2 font-normal hover:underline">
+                                        Modify →
                                     </Link>
                                 </div>
                             </dl>
