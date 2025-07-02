@@ -6,7 +6,6 @@ import { postType } from '@/type/post/postType';
 import PostDetail from '@/component/post/post-detail';
 
 export default async function Page(props: { params: Promise<postType> }) {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const { id } = (await props.params) || 0;
     const post = await getPost(+id);
 

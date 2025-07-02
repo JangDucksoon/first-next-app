@@ -69,7 +69,7 @@ export function PostCardSkeleton() {
             <div className="mb-6">
                 <HelperText color="info">Searching...</HelperText>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {cards.map((_, idx) => (
                     <CardContainer key={idx} containerClassName="flex rounded-xl bg-gray-100 p-0 shadow-xl">
                         <CardBody className="pb-3">

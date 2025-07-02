@@ -61,8 +61,17 @@ export default async function Page(props: { params: Promise<postType> }) {
 
                                 <Separator className="md:col-span-2" />
 
-                                <div className="text-center md:col-span-2 md:text-right">
-                                    <Link href={`/post/${post.id}/modify`} className="rounded-xl px-4 py-2 font-normal hover:underline">
+                                <div className="flex justify-between md:col-span-2">
+                                    <Link
+                                        href={`/post`}
+                                        className="rounded-xl px-4 py-2 font-normal transition-transform duration-400 hover:-translate-y-2 hover:underline"
+                                    >
+                                        ← Back
+                                    </Link>
+                                    <Link
+                                        href={`/post/${post.id}/modify`}
+                                        className="rounded-xl px-4 py-2 font-normal transition-transform duration-400 hover:-translate-y-2 hover:underline"
+                                    >
                                         Modify →
                                     </Link>
                                 </div>
