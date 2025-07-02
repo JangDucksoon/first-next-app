@@ -2,18 +2,20 @@
 
 import { FloatingLabel } from 'flowbite-react';
 import React, { useState } from 'react';
+import { MdDeleteForever } from 'react-icons/md';
 import Link from 'next/link';
 import lodash from 'lodash';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 
-import { updatePost } from '../../../public/api/post-api';
+import { deletePost, updatePost } from '../../../public/api/post-api';
 
 import { postType } from '@/type/post/postType';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/component/elements/select';
 import { FallbackImage } from '@/component/elements/fallback-image';
 import { Separator } from '@/component/elements/separator';
 import { Button } from '@/component/elements/stateful-button';
+import { Modal, ModalBody, ModalContent, ModalTrigger, useModal } from '@/component/elements/animated-modal';
 
 export default function PostModify(post: postType) {
     const { replace } = useRouter();
@@ -46,7 +48,6 @@ export default function PostModify(post: postType) {
     }
 
     async function sendPostProps() {
-        //await new Promise((resolve) => setTimeout(resolve, 1000));
         if (!isModified()) {
             return;
         }
@@ -55,6 +56,11 @@ export default function PostModify(post: postType) {
             await updatePost(postForm);
             replace(`/post/${postForm.id}`);
         }
+    }
+
+    async function sendDeletePost() {
+        await deletePost(+postForm.id);
+        replace(`/post`);
     }
 
     function isModified() {
@@ -124,19 +130,48 @@ export default function PostModify(post: postType) {
                 >
                     ← Back
                 </Link>
-                <Button className="rounded-md bg-blue-500 hover:ring-blue-500" onClick={sendPostProps}>
-                    Save
-                </Button>
+                <div className="flex gap-x-3">
+                    <Modal>
+                        <ModalTrigger className="group/modal-btn flex min-w-[120px] cursor-pointer justify-center bg-red-500 text-white dark:bg-white dark:text-black">
+                            <span className="text-center transition duration-500 group-hover/modal-btn:translate-x-40">Delete</span>
+                            <div className="absolute inset-0 z-20 flex -translate-x-40 items-center justify-center text-white transition duration-500 group-hover/modal-btn:translate-x-0">
+                                <MdDeleteForever className="h-full w-full" />
+                            </div>
+                        </ModalTrigger>
+                        <ModalBody className="min-h-0 p-6">
+                            <ModalContent>
+                                <div className="mx-auto flex w-full max-w-sm flex-col items-center space-y-4 p-6 text-center">
+                                    <div className="rounded-full bg-red-100 p-2 text-red-600">
+                                        <MdDeleteForever size={32} />
+                                    </div>
+                                    <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Are you sure you want to delete this?</h2>
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                                        This action cannot be undone. <br />
+                                        The selected post will be permanently deleted.
+                                    </p>
+                                    <div className="mt-4 flex w-full justify-center space-x-3">
+                                        <Button className="rounded-md bg-red-500 hover:ring-red-500" onClick={sendDeletePost}>
+                                            Delete
+                                        </Button>
+                                    </div>
+                                </div>
+                            </ModalContent>
+                        </ModalBody>
+                    </Modal>
+                    <Button className="rounded-md bg-blue-500 hover:ring-blue-500" onClick={sendPostProps}>
+                        Save
+                    </Button>
+                </div>
             </div>
             <div className="md:col-span-2">
                 <Separator />
             </div>
             <div>
-                <FloatingLabel disabled variant="outlined" label="ID" defaultValue={post.id} />
+                <FloatingLabel disabled variant="outlined" label="ID" value={postForm.id} />
                 {errorForm.id && <span className="p-2 text-red-700">{errorForm.id}</span>}
             </div>
             <div>
-                <Select defaultValue={post.category} name="category" onValueChange={propsChangeHandler}>
+                <Select value={postForm.category} name="category" onValueChange={propsChangeHandler}>
                     <SelectTrigger className="peer w-full appearance-none rounded-lg border border-gray-300 bg-transparent py-5.5">
                         <SelectValue placeholder="Category" />
                     </SelectTrigger>
@@ -156,23 +191,37 @@ export default function PostModify(post: postType) {
                 {errorForm.category && <span className="p-2 text-red-700">{errorForm.category}</span>}
             </div>
             <div>
-                <FloatingLabel variant="outlined" name="title" label="Title" defaultValue={post.title} onChange={inputChangeHandler} />
+                <FloatingLabel variant="outlined" name="title" label="Title" value={postForm.title} onChange={inputChangeHandler} />
                 {errorForm.title && <span className="p-2 text-red-700">{errorForm.title}</span>}
             </div>
             <div>
-                <FloatingLabel variant="outlined" name="author" label="Author" defaultValue={post.author} onChange={inputChangeHandler} />
+                <FloatingLabel variant="outlined" name="author" label="Author" value={postForm.author} onChange={inputChangeHandler} />
                 {errorForm.author && <span className="p-2 text-red-700">{errorForm.author}</span>}
             </div>
             <div className="md:col-span-2">
-                <FloatingLabel variant="outlined" name="summary" label="Summary" defaultValue={post.summary} onChange={inputChangeHandler} />
+                <FloatingLabel variant="outlined" name="summary" label="Summary" value={postForm.summary} onChange={inputChangeHandler} />
                 {errorForm.summary && <span className="p-2 text-red-700">{errorForm.summary}</span>}
             </div>
             <div className="md:col-span-2">
-                <FloatingLabel variant="outlined" name="content" label="content" defaultValue={post.content} onChange={inputChangeHandler} />
+                <FloatingLabel variant="outlined" name="content" label="content" value={postForm.content} onChange={inputChangeHandler} />
                 {errorForm.content && <span className="p-2 text-red-700">{errorForm.content}</span>}
             </div>
             <div className="md:col-span-2">
-                <FloatingLabel variant="outlined" name="imageSrc" label="Image-URL" defaultValue={post.imageSrc} onChange={inputChangeHandler} />
+                <FloatingLabel
+                    variant="outlined"
+                    name="imageSrc"
+                    label="Image-URL"
+                    value={postForm.imageSrc}
+                    onChange={inputChangeHandler}
+                    onKeyDown={(e: React.KeyboardEvent) => {
+                        if (e.key === ' ') e.preventDefault();
+                    }}
+                    onPaste={(e: React.ClipboardEvent) => {
+                        e.preventDefault();
+                        const noSpace = e.clipboardData.getData('text').replace(/\s+/gu, '');
+                        propsChangeHandler(noSpace, (e.target as HTMLInputElement).name);
+                    }}
+                />
             </div>
             <div className="md:col-span-2">
                 <Separator />

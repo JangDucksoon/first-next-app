@@ -19,3 +19,11 @@ export async function updatePost(post: postType) {
     const newList = list.map((row) => (row.id === post.id ? { ...row, ...post } : { ...row }));
     await fs.writeFile('public/data/card_posts.json', JSON.stringify(newList), 'utf-8');
 }
+
+export async function deletePost(id: number) {
+    const raw = await fs.readFile('public/data/card_posts.json', 'utf-8');
+    const list: postType[] = JSON.parse(raw);
+
+    const newList = list.filter((row) => row.id !== id);
+    await fs.writeFile('public/data/card_posts.json', JSON.stringify(newList), 'utf-8');
+}

@@ -13,6 +13,7 @@ export function FallbackImage({ src }: { src: string | undefined | null }) {
             setImageSrc(src);
         }
     }, [src]);
+
     return (
         <Image
             src={imageSrc}
@@ -21,6 +22,7 @@ export function FallbackImage({ src }: { src: string | undefined | null }) {
             width="1000"
             className="object-fit h-60 w-full rounded-xl group-hover/card:shadow-xl"
             unoptimized
+            priority
             onError={() => setImageSrc('/images/no-image.svg')}
         />
     );
