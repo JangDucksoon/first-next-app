@@ -13,8 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: { searchParams: Promise<SearchFilterType> }) {
-    await new Promise<>((resolve) => setTimeout(resolve, 1000));
-    let { term, view } = (await props.searchParams) || '';
+    let { term, category, view } = (await props.searchParams) || '';
     view = view !== 'table' ? 'card' : view;
 
     return (
@@ -34,7 +33,7 @@ export default async function Page(props: { searchParams: Promise<SearchFilterTy
                     ) : null}
                     {view === 'card' ? (
                         <Suspense key={term + view} fallback={<PostCardSkeleton />}>
-                            <PostCards term={term} />
+                            <PostCards term={term} category={category} />
                         </Suspense>
                     ) : null}
                 </div>

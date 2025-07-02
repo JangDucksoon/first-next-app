@@ -5,7 +5,7 @@ export type SearchFilterType = {
 };
 
 export type postType = {
-    id: number;
+    id?: number;
     title?: string;
     summary?: string;
     author?: string;

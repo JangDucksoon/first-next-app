@@ -4,6 +4,10 @@ import { FloatingLabel } from 'flowbite-react';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import lodash from 'lodash';
+import { z } from 'zod';
+import { useRouter } from 'next/navigation';
+
+import { updatePost } from '../../../public/api/post-api';
 
 import { postType } from '@/type/post/postType';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/component/elements/select';
@@ -12,16 +16,20 @@ import { Separator } from '@/component/elements/separator';
 import { Button } from '@/component/elements/stateful-button';
 
 export default function PostModify(post: postType) {
+    const { replace } = useRouter();
     const [postForm, setPostForm] = useState({ ...post });
-    const [errorForm, setErrorForm] = useState<Record<string, string>>(
-        Object.keys(post).reduce(
-            (acc, key) => {
-                acc[`${key}Error`] = '';
-                return acc;
-            },
-            {} as Record<string, string>
-        )
-    );
+    const [errorForm, setErrorForm] = useState<Record<keyof postType, string>>({
+        author: '',
+        category: '',
+        content: '',
+        createdAt: '',
+        id: '',
+        imageSrc: '',
+        likes: '',
+        summary: '',
+        title: '',
+        views: ''
+    });
     const [modified, setModified] = useState(true);
 
     function inputChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
@@ -38,11 +46,15 @@ export default function PostModify(post: postType) {
     }
 
     async function sendPostProps() {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        //await new Promise((resolve) => setTimeout(resolve, 1000));
         if (!isModified()) {
             return;
         }
-        console.log(JSON.stringify(postForm));
+
+        if (validatePostInfo()) {
+            await updatePost(postForm);
+            replace(`/post/${postForm.id}`);
+        }
     }
 
     function isModified() {
@@ -53,6 +65,44 @@ export default function PostModify(post: postType) {
             setModified(true);
             return true;
         }
+    }
+
+    const postSchema = z.object({
+        id: z.coerce.number().min(1, 'ID is required'),
+        category: z.string().min(1, 'Category is required'),
+        title: z.string().min(5, 'Title must be at least 5 characters'),
+        author: z.string().min(1, 'Author is required'),
+        summary: z.string().min(10, 'Summary must be at 10 characters'),
+        content: z.string().min(20, 'Content must be at 20 characters')
+    });
+
+    function validatePostInfo() {
+        const result = postSchema.safeParse(postForm);
+        if (!result.success) {
+            const errors = result.error.flatten().fieldErrors;
+            let errorRecord = {};
+            Object.entries(errors).forEach((error) => {
+                const [name, [message]] = error;
+                errorRecord[name] = message;
+            });
+
+            setErrorForm({ ...errorForm, ...errorRecord });
+            return false;
+        }
+
+        setErrorForm({
+            author: '',
+            category: '',
+            content: '',
+            createdAt: '',
+            id: '',
+            imageSrc: '',
+            likes: '',
+            summary: '',
+            title: '',
+            views: ''
+        });
+        return true;
     }
 
     return (
@@ -83,7 +133,7 @@ export default function PostModify(post: postType) {
             </div>
             <div>
                 <FloatingLabel disabled variant="outlined" label="ID" defaultValue={post.id} />
-                {errorForm.idError && <span className="p-2 text-red-700">{errorForm.idError}</span>}
+                {errorForm.id && <span className="p-2 text-red-700">{errorForm.id}</span>}
             </div>
             <div>
                 <Select defaultValue={post.category} name="category" onValueChange={propsChangeHandler}>
@@ -103,23 +153,23 @@ export default function PostModify(post: postType) {
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-                {errorForm.categoryError && <span className="p-2 text-red-700">{errorForm.categoryError}</span>}
+                {errorForm.category && <span className="p-2 text-red-700">{errorForm.category}</span>}
             </div>
             <div>
                 <FloatingLabel variant="outlined" name="title" label="Title" defaultValue={post.title} onChange={inputChangeHandler} />
-                {errorForm.titleError && <span className="p-2 text-red-700">{errorForm.titleError}</span>}
+                {errorForm.title && <span className="p-2 text-red-700">{errorForm.title}</span>}
             </div>
             <div>
                 <FloatingLabel variant="outlined" name="author" label="Author" defaultValue={post.author} onChange={inputChangeHandler} />
-                {errorForm.authorError && <span className="p-2 text-red-700">{errorForm.authorError}</span>}
+                {errorForm.author && <span className="p-2 text-red-700">{errorForm.author}</span>}
             </div>
             <div className="md:col-span-2">
                 <FloatingLabel variant="outlined" name="summary" label="Summary" defaultValue={post.summary} onChange={inputChangeHandler} />
-                {errorForm.summaryError && <span className="p-2 text-red-700">{errorForm.summaryError}</span>}
+                {errorForm.summary && <span className="p-2 text-red-700">{errorForm.summary}</span>}
             </div>
             <div className="md:col-span-2">
                 <FloatingLabel variant="outlined" name="content" label="content" defaultValue={post.content} onChange={inputChangeHandler} />
-                {errorForm.contentError && <span className="p-2 text-red-700">errorForm.contentError</span>}
+                {errorForm.content && <span className="p-2 text-red-700">{errorForm.content}</span>}
             </div>
             <div className="md:col-span-2">
                 <FloatingLabel variant="outlined" name="imageSrc" label="Image-URL" defaultValue={post.imageSrc} onChange={inputChangeHandler} />

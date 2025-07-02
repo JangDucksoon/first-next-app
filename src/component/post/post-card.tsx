@@ -44,8 +44,8 @@ export function PostCard(card: postType) {
                 <CardItem translateZ="60" className="mt-4 w-full">
                     {card.content}
                 </CardItem>
-                <CardItem translateZ="50" rotateX={-10} rotateZ={20} className="mt-4 w-full">
-                    <Link href={`http://localhost:3000/post/${card.id}`}>
+                <CardItem translateZ="100" className="mt-4 w-full">
+                    <Link href={`/post/${card.id}`}>
                         <FallbackImage src={card.imageSrc} />
                     </Link>
                 </CardItem>

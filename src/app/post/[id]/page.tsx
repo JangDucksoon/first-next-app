@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/component/elements/c
 import { ScrollArea } from '@/component/elements/scroll-area';
 import { Separator } from '@/component/elements/separator';
 import { Label } from '@/component/elements/label';
+import { FallbackImage } from '@/component/elements/fallback-image';
 
 export default async function Page(props: { params: Promise<postType> }) {
     const { id } = (await props.params) || 0;
@@ -27,7 +28,7 @@ export default async function Page(props: { params: Promise<postType> }) {
 
                     <CardContent className="space-y-4">
                         <div className="relative h-60 w-full overflow-hidden rounded-xl">
-                            <Image src={post.imageSrc || '/images/no-image.svg'} alt={post.title} fill className="object-fit" priority />
+                            <FallbackImage src={post.imageSrc} alt={post.title} fill priority />
                         </div>
 
                         <Separator />

@@ -20,7 +20,6 @@ export function FallbackImage({ src }: { src: string | undefined | null }) {
             height="1000"
             width="1000"
             className="object-fit h-60 w-full rounded-xl group-hover/card:shadow-xl"
-            priority
             unoptimized
             onError={() => setImageSrc('/images/no-image.svg')}
         />
