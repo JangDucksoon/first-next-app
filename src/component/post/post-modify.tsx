@@ -217,7 +217,7 @@ export default function PostModify(post: postType) {
                     value={postForm.title}
                     onChange={inputChangeHandler}
                     className={clsx({
-                        'animate-[bounce_0.8s_ease-in-out_1] border-red-600': errorForm.title
+                        'border-red-600': errorForm.title
                     })}
                 />
             </div>
@@ -229,7 +229,7 @@ export default function PostModify(post: postType) {
                     value={postForm.author}
                     onChange={inputChangeHandler}
                     className={clsx({
-                        'animate-[bounce_0.8s_ease-in-out_1] border-red-600': errorForm.author
+                        'border-red-600': errorForm.author
                     })}
                 />
             </div>
@@ -241,7 +241,7 @@ export default function PostModify(post: postType) {
                     value={postForm.summary}
                     onChange={inputChangeHandler}
                     className={clsx({
-                        'animate-[bounce_0.8s_ease-in-out_1] border-red-600': errorForm.summary
+                        'border-red-600': errorForm.summary
                     })}
                 />
             </div>
@@ -253,7 +253,7 @@ export default function PostModify(post: postType) {
                     value={postForm.content}
                     onChange={inputChangeHandler}
                     className={clsx({
-                        'animate-[bounce_0.8s_ease-in-out_1] border-red-600': errorForm.content
+                        'border-red-600': errorForm.content
                     })}
                 />
             </div>
