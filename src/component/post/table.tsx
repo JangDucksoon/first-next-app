@@ -1,17 +1,13 @@
 import { HelperText, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 'flowbite-react';
 import React from 'react';
-
-import { SearchFilterType } from '@/type/post/postType';
 import Link from 'next/link';
 
-export async function PostTable({ term }: SearchFilterType) {
-    await new Promise<>((resolve) => setTimeout(resolve, 500));
-    const response = await fetch(`http://localhost:3000/data/card_posts.json`);
-    const list = await response.json();
+import { getAllPosts } from '@/lib/post-api';
+import { SearchFilterType } from '@/type/post/postType';
 
-    const rows = term
-        ? list.filter((data) => data.title.toUpperCase().includes(term.toUpperCase()) || data.content.toUpperCase().includes(term.toUpperCase()))
-        : list;
+export async function PostTable({ term }: SearchFilterType) {
+    const rows = await getAllPosts(term || '');
+
     return (
         <>
             <div className="mb-6">

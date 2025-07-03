@@ -1,9 +1,7 @@
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 
-import { getPost } from '../../../../public/api/post-api';
-
+import { getPost } from '@/lib/post-api';
 import { postType } from '@/type/post/postType';
 import { Card, CardContent, CardHeader, CardTitle } from '@/component/elements/card';
 import { ScrollArea } from '@/component/elements/scroll-area';

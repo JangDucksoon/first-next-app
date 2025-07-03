@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getPost } from '../../../../../public/api/post-api';
-
+import { getPost } from '@/lib/post-api';
 import { postType } from '@/type/post/postType';
 import PostModify from '@/component/post/post-modify';
 

@@ -8,14 +8,13 @@ import lodash from 'lodash';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 
-import { deletePost, updatePost } from '../../../public/api/post-api';
-
 import { postType } from '@/type/post/postType';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/component/elements/select';
 import { FallbackImage } from '@/component/elements/fallback-image';
 import { Separator } from '@/component/elements/separator';
 import { Button } from '@/component/elements/stateful-button';
-import { Modal, ModalBody, ModalContent, ModalTrigger, useModal } from '@/component/elements/animated-modal';
+import { Modal, ModalBody, ModalContent, ModalTrigger } from '@/component/elements/animated-modal';
+import { deletePost, updatePost } from '@/lib/post-api';
 
 export default function PostModify(post: postType) {
     const { replace } = useRouter();
@@ -53,14 +52,22 @@ export default function PostModify(post: postType) {
         }
 
         if (validatePostInfo()) {
-            await updatePost(postForm);
-            replace(`/post/${postForm.id}`);
+            const result = await updatePost(postForm);
+            if (result.success) {
+                replace(`/post/${postForm.id}`);
+            } else {
+                console.log(result.error);
+            }
         }
     }
 
     async function sendDeletePost() {
-        await deletePost(+postForm.id);
-        replace(`/post`);
+        const result = await deletePost(+postForm.id);
+        if (result.success) {
+            replace(`/post`);
+        } else {
+            console.log(result.error);
+        }
     }
 
     function isModified() {
@@ -211,7 +218,7 @@ export default function PostModify(post: postType) {
                     variant="outlined"
                     name="imageSrc"
                     label="Image-URL"
-                    value={postForm.imageSrc}
+                    value={postForm.imageSrc || ''}
                     onChange={inputChangeHandler}
                     onKeyDown={(e: React.KeyboardEvent) => {
                         if (e.key === ' ') e.preventDefault();

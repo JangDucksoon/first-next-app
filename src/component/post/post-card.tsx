@@ -6,15 +6,10 @@ import { PurseCell } from '@/component/post/table';
 import { postType, SearchFilterType } from '@/type/post/postType';
 import { CardBody, CardContainer, CardItem } from '@/component/elements/3d-card';
 import { FallbackImage } from '@/component/elements/fallback-image';
+import { getAllPosts } from '@/lib/post-api';
 
 export default async function PostCards({ term }: SearchFilterType) {
-    await new Promise<>((resolve) => setTimeout(resolve, 1000));
-    const response = await fetch(`http://localhost:3000/data/card_posts.json`);
-    const list = await response.json();
-
-    const cards: Array<postType> = term
-        ? list.filter((data) => data.title.toUpperCase().includes(term.toUpperCase()) || data.content.toUpperCase().includes(term.toUpperCase()))
-        : list;
+    const cards = await getAllPosts(term || '');
 
     return (
         <>
