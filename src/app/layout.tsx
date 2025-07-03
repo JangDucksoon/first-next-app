@@ -4,6 +4,7 @@ import React from 'react';
 import { ThemeModeScript } from 'flowbite-react';
 
 import { robotoMedium } from '@/font/font';
+import { AlertBox } from '@/component/elements/message-box';
 
 export const metadata: Metadata = {
     title: {
@@ -19,7 +20,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <head>
                 <ThemeModeScript />
             </head>
-            <body className={`${robotoMedium.className} antialiased`}>{children}</body>
+            <body className={`${robotoMedium.className} antialiased`}>
+                {children}
+                <AlertBox />
+            </body>
         </html>
     );
 }

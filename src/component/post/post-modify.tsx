@@ -18,86 +18,9 @@ import { Button } from '@/component/elements/stateful-button';
 import { Modal, ModalBody, ModalContent, ModalTrigger } from '@/component/elements/animated-modal';
 import { deletePost, updatePost } from '@/lib/post-api';
 import { Alert, AlertDescription, AlertTitle } from '@/component/elements/alert';
+import { alertBox } from '@/lib/alert-store';
 
 export default function PostModify(post: postType) {
-    const { replace } = useRouter();
-    const [postForm, setPostForm] = useState({ ...post });
-    const [modified, setModified] = useState(true);
-    const [errorForm, setErrorForm] = useState<Record<keyof postType, string>>({
-        author: '',
-        category: '',
-        content: '',
-        createdAt: '',
-        id: '',
-        imageSrc: '',
-        likes: '',
-        summary: '',
-        title: '',
-        views: ''
-    });
-
-    function inputChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
-        const value = e.target.value;
-        const name = e.target.name;
-
-        if (
-            (errorForm.author && name === 'author' && value) ||
-            (errorForm.title && name === 'title' && value?.length >= 5) ||
-            (errorForm.summary && name === 'summary' && value?.length >= 10) ||
-            (errorForm.content && name === 'content' && value?.length >= 20)
-        ) {
-            setErrorForm({ ...errorForm, [name]: '' });
-        }
-
-        propsChangeHandler(value, name);
-    }
-
-    function propsChangeHandler(value, name) {
-        setPostForm((prevState) => {
-            if (!modified && prevState[name] !== value) {
-                setModified(true);
-            }
-            return {
-                ...prevState,
-                [name]: value
-            };
-        });
-    }
-
-    async function sendPostProps() {
-        if (!isModified()) {
-            return;
-        }
-
-        if (validatePostInfo()) {
-            const result = await updatePost(postForm);
-            if (result.success) {
-                replace(`/post/${postForm.id}`);
-            } else {
-                console.log(result.error);
-            }
-        }
-    }
-
-    async function sendDeletePost() {
-        const result = await deletePost(+postForm.id);
-        if (result.success) {
-            replace(`/post`);
-        } else {
-            console.log(result.error);
-        }
-    }
-
-    function isModified() {
-        if (lodash.isEqual(postForm, post)) {
-            setModified(false);
-            return false;
-        } else {
-            setModified(true);
-            return true;
-        }
-    }
-
     const postSchema = z.object({
         id: z.coerce.number().min(1, 'ID is required'),
         category: z.string().min(1, 'Category is required'),
@@ -106,34 +29,61 @@ export default function PostModify(post: postType) {
         summary: z.string().min(10, 'Summary must be at 10 characters'),
         content: z.string().min(20, 'Content must be at 20 characters')
     });
+    const { replace } = useRouter();
+    const [postForm, setPostForm] = useState({ ...post });
+    const modified = !lodash.isEqual(postForm, post);
+    const validationResult = postSchema.safeParse(postForm);
+    const errorForm = validationResult.success ? {} : validationResult.error.flatten().fieldErrors;
+    const [firstLoad, setFirstLoad] = useState(true);
 
-    function validatePostInfo() {
-        const result = postSchema.safeParse(postForm);
-        if (!result.success) {
-            const errors = result.error.flatten().fieldErrors;
-            let errorRecord = {};
-            Object.entries(errors).forEach((error) => {
-                const [name, [message]] = error;
-                errorRecord[name] = message;
-            });
+    function inputChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+        const value = e.target.value;
+        const name = e.target.name;
 
-            setErrorForm({ ...errorForm, ...errorRecord });
-            return false;
+        propsChangeHandler(value, name);
+    }
+
+    function propsChangeHandler(value: string, name: string) {
+        setPostForm((prevState) => {
+            return {
+                ...prevState,
+                [name]: value
+            };
+        });
+    }
+
+    async function sendPostProps() {
+        if (firstLoad) {
+            setFirstLoad(false);
         }
 
-        setErrorForm({
-            author: '',
-            category: '',
-            content: '',
-            createdAt: '',
-            id: '',
-            imageSrc: '',
-            likes: '',
-            summary: '',
-            title: '',
-            views: ''
-        });
-        return true;
+        if (!modified) {
+            return;
+        }
+
+        if (validationResult.success) {
+            const result = await updatePost(postForm);
+            if (result.success) {
+                replace(`/post/${postForm.id}`);
+            } else {
+                alertBox.show(result.error);
+            }
+        } else {
+            const validateMsg = Object.values(errorForm)
+                .flat(1)
+                .map((msg) => `• ${msg}`)
+                .join('\r\n');
+            alertBox.show(validateMsg);
+        }
+    }
+
+    async function sendDeletePost() {
+        const result = await deletePost(+postForm.id);
+        if (result.success) {
+            replace(`/post`);
+        } else {
+            alertBox.show(result.error);
+        }
     }
 
     return (
@@ -274,7 +224,7 @@ export default function PostModify(post: postType) {
                     }}
                 />
             </div>
-            {!modified && (
+            {!modified && !firstLoad && (
                 <>
                     <div className="md:col-span-2">
                         <Separator />
