@@ -16,7 +16,7 @@
         "title": "Next.js로 블로그 만들기 #2",
         "summary": "단계별로 따라하며 학습합니다.",
         "author": "강다현",
-        "category": "프론트엔드",
+        "category": "React",
         "createdAt": "2023-11-20",
         "views": 2427,
         "likes": 362,
@@ -173,7 +173,7 @@
         "views": 862,
         "likes": 401,
         "content": "이 글은 15번째로 작성된 글로, 개발 관련 내용을 담고 있습니다. 다양한 실습과 설명을 포함하고 있어 학습에 도움이 됩니다.",
-        "imageSrc": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg"
+        "imageSrc": ""
     },
     {
         "id": 16,

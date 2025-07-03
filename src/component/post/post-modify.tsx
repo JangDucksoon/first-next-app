@@ -7,6 +7,8 @@ import Link from 'next/link';
 import lodash from 'lodash';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
+import { AlertCircleIcon } from 'lucide-react';
+import { clsx } from 'clsx';
 
 import { postType } from '@/type/post/postType';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/component/elements/select';
@@ -15,10 +17,12 @@ import { Separator } from '@/component/elements/separator';
 import { Button } from '@/component/elements/stateful-button';
 import { Modal, ModalBody, ModalContent, ModalTrigger } from '@/component/elements/animated-modal';
 import { deletePost, updatePost } from '@/lib/post-api';
+import { Alert, AlertDescription, AlertTitle } from '@/component/elements/alert';
 
 export default function PostModify(post: postType) {
     const { replace } = useRouter();
     const [postForm, setPostForm] = useState({ ...post });
+    const [modified, setModified] = useState(true);
     const [errorForm, setErrorForm] = useState<Record<keyof postType, string>>({
         author: '',
         category: '',
@@ -31,19 +35,33 @@ export default function PostModify(post: postType) {
         title: '',
         views: ''
     });
-    const [modified, setModified] = useState(true);
 
     function inputChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
         const value = e.target.value;
         const name = e.target.name;
+
+        if (
+            (errorForm.author && name === 'author' && value) ||
+            (errorForm.title && name === 'title' && value?.length >= 5) ||
+            (errorForm.summary && name === 'summary' && value?.length >= 10) ||
+            (errorForm.content && name === 'content' && value?.length >= 20)
+        ) {
+            setErrorForm({ ...errorForm, [name]: '' });
+        }
+
         propsChangeHandler(value, name);
     }
 
     function propsChangeHandler(value, name) {
-        setPostForm((prevState) => ({
-            ...prevState,
-            [name]: value
-        }));
+        setPostForm((prevState) => {
+            if (!modified && prevState[name] !== value) {
+                setModified(true);
+            }
+            return {
+                ...prevState,
+                [name]: value
+            };
+        });
     }
 
     async function sendPostProps() {
@@ -120,16 +138,6 @@ export default function PostModify(post: postType) {
 
     return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {!modified && (
-                <>
-                    <div className="md:col-span-2">
-                        <span className="text-left text-red-700">Information is not changed</span>
-                    </div>
-                    <div className="md:col-span-2">
-                        <Separator />
-                    </div>
-                </>
-            )}
             <div className="flex justify-between md:col-span-2">
                 <Link
                     href={`/post/${post.id}`}
@@ -173,9 +181,14 @@ export default function PostModify(post: postType) {
             <div className="md:col-span-2">
                 <Separator />
             </div>
+            <div className="md:col-span-2">
+                <FallbackImage src={postForm.imageSrc} />
+            </div>
+            <div className="md:col-span-2">
+                <Separator />
+            </div>
             <div>
                 <FloatingLabel disabled variant="outlined" label="ID" value={postForm.id} />
-                {errorForm.id && <span className="p-2 text-red-700">{errorForm.id}</span>}
             </div>
             <div>
                 <Select value={postForm.category} name="category" onValueChange={propsChangeHandler}>
@@ -195,23 +208,54 @@ export default function PostModify(post: postType) {
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-                {errorForm.category && <span className="p-2 text-red-700">{errorForm.category}</span>}
             </div>
             <div>
-                <FloatingLabel variant="outlined" name="title" label="Title" value={postForm.title} onChange={inputChangeHandler} />
-                {errorForm.title && <span className="p-2 text-red-700">{errorForm.title}</span>}
+                <FloatingLabel
+                    variant="outlined"
+                    name="title"
+                    label="Title"
+                    value={postForm.title}
+                    onChange={inputChangeHandler}
+                    className={clsx({
+                        'animate-[bounce_0.8s_ease-in-out_1] border-red-600': errorForm.title
+                    })}
+                />
             </div>
             <div>
-                <FloatingLabel variant="outlined" name="author" label="Author" value={postForm.author} onChange={inputChangeHandler} />
-                {errorForm.author && <span className="p-2 text-red-700">{errorForm.author}</span>}
+                <FloatingLabel
+                    variant="outlined"
+                    name="author"
+                    label="Author"
+                    value={postForm.author}
+                    onChange={inputChangeHandler}
+                    className={clsx({
+                        'animate-[bounce_0.8s_ease-in-out_1] border-red-600': errorForm.author
+                    })}
+                />
             </div>
             <div className="md:col-span-2">
-                <FloatingLabel variant="outlined" name="summary" label="Summary" value={postForm.summary} onChange={inputChangeHandler} />
-                {errorForm.summary && <span className="p-2 text-red-700">{errorForm.summary}</span>}
+                <FloatingLabel
+                    variant="outlined"
+                    name="summary"
+                    label="Summary"
+                    value={postForm.summary}
+                    onChange={inputChangeHandler}
+                    className={clsx({
+                        'animate-[bounce_0.8s_ease-in-out_1] border-red-600': errorForm.summary
+                    })}
+                />
             </div>
             <div className="md:col-span-2">
-                <FloatingLabel variant="outlined" name="content" label="content" value={postForm.content} onChange={inputChangeHandler} />
-                {errorForm.content && <span className="p-2 text-red-700">{errorForm.content}</span>}
+                <FloatingLabel
+                    variant="outlined"
+                    name="content"
+                    label="content"
+                    value={postForm.content}
+                    onChange={inputChangeHandler}
+                    className={clsx({
+                        'animate-[bounce_0.8s_ease-in-out_1] border-red-600': errorForm.content
+                    })}
+                />
             </div>
             <div className="md:col-span-2">
                 <FloatingLabel
@@ -230,12 +274,40 @@ export default function PostModify(post: postType) {
                     }}
                 />
             </div>
-            <div className="md:col-span-2">
-                <Separator />
-            </div>
-            <div className="md:col-span-2">
-                <FallbackImage src={postForm.imageSrc} />
-            </div>
+            {!modified && (
+                <>
+                    <div className="md:col-span-2">
+                        <Separator />
+                    </div>
+                    <div className="md:col-span-2">
+                        <Alert variant="destructive" className="border-red-500">
+                            <AlertCircleIcon />
+                            <AlertTitle>Information is not changed.</AlertTitle>
+                        </Alert>
+                    </div>
+                </>
+            )}
+            {(errorForm.author || errorForm.title || errorForm.summary || errorForm.content) && (
+                <>
+                    <div className="md:col-span-2">
+                        <Separator />
+                    </div>
+                    <div className="md:col-span-2">
+                        <Alert variant="destructive" className="border-red-500">
+                            <AlertCircleIcon />
+                            <AlertTitle>The required rules for saving were not followed.</AlertTitle>
+                            <AlertDescription>
+                                <ul className="list-inside list-disc text-sm">
+                                    {errorForm.author ? <li>{errorForm.author}</li> : null}
+                                    {errorForm.title ? <li>{errorForm.title}</li> : null}
+                                    {errorForm.summary ? <li>{errorForm.summary}</li> : null}
+                                    {errorForm.content ? <li>{errorForm.content}</li> : null}
+                                </ul>
+                            </AlertDescription>
+                        </Alert>
+                    </div>
+                </>
+            )}
         </div>
     );
 }
