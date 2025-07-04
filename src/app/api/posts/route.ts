@@ -6,16 +6,16 @@ import { promises as fs } from 'fs';
 import { NextRequest, NextResponse } from 'next/server';
 import { isNumber } from 'lodash';
 
-import { postType } from '@/type/post/postType';
+import { PostType } from '@/type/post/PostType';
 
 const jsonPath = path.resolve('./src/data/card_posts.json');
 
-async function readPosts(): Promise<postType[]> {
+async function readPosts(): Promise<PostType[]> {
     const fileContents = await fs.readFile(jsonPath, 'utf8');
     return JSON.parse(fileContents);
 }
 
-async function writePosts(posts: postType[]) {
+async function writePosts(posts: PostType[]) {
     await fs.writeFile(jsonPath, JSON.stringify(posts, null, 2), 'utf8');
 }
 

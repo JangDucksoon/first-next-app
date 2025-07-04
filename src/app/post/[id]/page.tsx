@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 
 import { getPost } from '@/lib/post-api';
-import { postType } from '@/type/post/postType';
+import { PostType } from '@/type/post/PostType';
 import { Card, CardContent, CardHeader, CardTitle } from '@/component/elements/card';
 import { ScrollArea } from '@/component/elements/scroll-area';
 import { Separator } from '@/component/elements/separator';
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: 'post pages....'
 };
 
-export default async function Page(props: { params: Promise<postType> }) {
+export default async function Page(props: { params: Promise<PostType> }) {
     const { id } = (await props.params) || 0;
     const post = await getPost(+id);
 

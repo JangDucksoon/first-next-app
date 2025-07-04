@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { AlertCircleIcon } from 'lucide-react';
 import { clsx } from 'clsx';
 
-import { postType } from '@/type/post/postType';
+import { PostType } from '@/type/post/PostType';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/component/elements/select';
 import { FallbackImage } from '@/component/elements/fallback-image';
 import { Separator } from '@/component/elements/separator';
@@ -20,7 +20,7 @@ import { deletePost, updatePost } from '@/lib/post-api';
 import { Alert, AlertDescription, AlertTitle } from '@/component/elements/alert';
 import { alertBox } from '@/lib/alert-store';
 
-export default function PostModify(post: postType) {
+export default function PostModify(post: PostType) {
     const postSchema = z.object({
         id: z.coerce.number().min(1, 'ID is required'),
         category: z.string().min(1, 'Category is required'),

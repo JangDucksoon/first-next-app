@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { getAllPosts } from '@/lib/post-api';
-import { SearchFilterType } from '@/type/post/postType';
+import { SearchFilterType } from '@/type/post/PostType';
 
 export async function PostTable({ term }: SearchFilterType) {
     const rows = await getAllPosts(term || '');

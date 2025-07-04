@@ -4,7 +4,7 @@ export type SearchFilterType = {
     helperType?: string;
 };
 
-export type postType = {
+export type PostType = {
     id?: number;
     title?: string;
     summary?: string;

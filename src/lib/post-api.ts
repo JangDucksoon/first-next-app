@@ -1,8 +1,8 @@
 'use server';
 
-import { postType } from '@/type/post/postType';
+import { PostType } from '@/type/post/PostType';
 
-export async function getAllPosts(term: string): Promise<postType[]> {
+export async function getAllPosts(term: string): Promise<PostType[]> {
     const response = await fetch(`http://localhost:3000/api/posts?term=${term}`, { cache: 'no-store' });
     if (!response.ok) {
         throw new Error('Failed to fetch posts');
@@ -10,12 +10,12 @@ export async function getAllPosts(term: string): Promise<postType[]> {
     return response.json();
 }
 
-export async function getPost(id: number): Promise<postType> {
+export async function getPost(id: number): Promise<PostType> {
     const response = await fetch(`http://localhost:3000/api/posts/${id}`, { cache: 'no-store' });
     return response.json();
 }
 
-export async function insertPost(post: postType) {
+export async function insertPost(post: PostType) {
     const result = await fetch('http://localhost:3000/api/posts', {
         method: 'POST',
         headers: {
@@ -27,7 +27,7 @@ export async function insertPost(post: postType) {
     return result.json();
 }
 
-export async function updatePost(post: postType) {
+export async function updatePost(post: PostType) {
     const result = await fetch(`http://localhost:3000/api/posts/${post.id}`, {
         method: 'PUT',
         headers: {

@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { PurseCell } from '@/component/post/table';
-import { postType, SearchFilterType } from '@/type/post/postType';
+import { PostType, SearchFilterType } from '@/type/post/PostType';
 import { CardBody, CardContainer, CardItem } from '@/component/elements/3d-card';
 import { FallbackImage } from '@/component/elements/fallback-image';
 import { getAllPosts } from '@/lib/post-api';
@@ -23,7 +23,7 @@ export default async function PostCards({ term }: SearchFilterType) {
     );
 }
 
-export function PostCard(card: postType) {
+export function PostCard(card: PostType) {
     return (
         <CardContainer containerClassName="py-0" className="inter-var">
             <CardBody className="group/card relative h-auto w-full rounded-xl border border-black/[0.1] bg-gray-50 p-6 dark:border-white/[0.2] dark:bg-black dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1]">

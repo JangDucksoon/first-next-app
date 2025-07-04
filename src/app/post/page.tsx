@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 
 import SearchFilter from '@/component/post/search-filter';
-import { SearchFilterType } from '@/type/post/postType';
+import { SearchFilterType } from '@/type/post/PostType';
 import { PostTable, PostTableSkeleton } from '@/component/post/table';
 import ViewToggle from '@/component/post/view-toggle';
 import PostCards, { PostCardSkeleton } from '@/component/post/post-card';

@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation';
+import Main from '@/component/main/main';
 
 export default function Home() {
-    redirect('/post');
-    return null;
+    return <Main />;
 }

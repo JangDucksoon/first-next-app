@@ -8,7 +8,7 @@ import { FloatingLabel } from 'flowbite-react';
 import Link from 'next/link';
 import { AlertCircleIcon } from 'lucide-react';
 
-import { postType } from '@/type/post/postType';
+import { PostType } from '@/type/post/PostType';
 import { insertPost } from '@/lib/post-api';
 import { alertBox } from '@/lib/alert-store';
 import { Button } from '@/component/elements/stateful-button';
@@ -45,7 +45,7 @@ export default function PostCreate() {
             })
             .min(20, 'Content must be at 20 characters')
     });
-    const [postForm, setPostForm] = useState<postType>({});
+    const [postForm, setPostForm] = useState<PostType>({});
     const validationResult = postSchema.safeParse(postForm);
     const errorForm = validationResult.success ? {} : validationResult.error.flatten().fieldErrors;
     const { replace } = useRouter();
