@@ -4,7 +4,6 @@ import React from 'react';
 import { AlertCircleIcon } from 'lucide-react';
 
 import { useAlertStore } from '@/lib/alert-store';
-import { Button } from '@/component/elements/stateful-button';
 import { Separator } from '@/component/elements/separator';
 import { ScrollArea } from '@/component/elements/scroll-area';
 
