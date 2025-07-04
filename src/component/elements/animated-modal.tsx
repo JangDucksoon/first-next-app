@@ -48,6 +48,10 @@ export const ModalBody = ({ children, className }: { children: ReactNode; classN
         } else {
             document.body.style.overflow = 'auto';
         }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
     }, [open]);
 
     const modalRef = useRef(null);

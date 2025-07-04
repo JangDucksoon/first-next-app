@@ -17,7 +17,7 @@ export default async function Page(props: { searchParams: Promise<SearchFilterTy
     view = view !== 'table' ? 'card' : view;
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6">
+        <div className="bg-gray-100 p-6">
             <div className="mx-auto max-w-4xl rounded-2xl bg-white p-6 shadow-lg">
                 <div className="flex justify-between">
                     <h1 className="mb-6 text-3xl font-bold">POST</h1>

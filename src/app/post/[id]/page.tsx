@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 import { getPost } from '@/lib/post-api';
 import { postType } from '@/type/post/postType';
@@ -8,6 +9,11 @@ import { ScrollArea } from '@/component/elements/scroll-area';
 import { Separator } from '@/component/elements/separator';
 import { Label } from '@/component/elements/label';
 import { FallbackImage } from '@/component/elements/fallback-image';
+
+export const metadata: Metadata = {
+    title: 'Post detail',
+    description: 'post pages....'
+};
 
 export default async function Page(props: { params: Promise<postType> }) {
     const { id } = (await props.params) || 0;
@@ -70,6 +76,7 @@ export default async function Page(props: { params: Promise<postType> }) {
                                     <Link
                                         href={`/post/${post.id}/modify`}
                                         className="rounded-xl px-4 py-2 font-normal transition-transform duration-400 hover:-translate-y-2 hover:underline"
+                                        replace
                                     >
                                         Modify →
                                     </Link>
