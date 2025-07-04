@@ -3,11 +3,10 @@
 import { IconMenu2, IconX } from '@tabler/icons-react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react';
 import React, { useRef, useState } from 'react';
-
-import { cn } from '@/lib/utils';
-
 import Link from 'next/link';
 import Image from 'next/image';
+
+import { cn } from '@/lib/utils';
 
 interface NavbarProps {
     children: React.ReactNode;

@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { isNumber } from 'lodash';
 
 import { PostType } from '@/type/post/PostType';
+import { format } from 'date-fns';
 
 const jsonPath = path.resolve('./src/data/card_posts.json');
 
@@ -35,12 +36,13 @@ export async function POST(nextRequest: NextRequest) {
     const idArrays = posts.map((post) => post.id || 0);
     const maxId = Math.max(...idArrays);
     const newId = maxId + 1;
+    const createdAt = format(new Date(), 'yyyy-MM-dd');
 
     if (!isNumber(newId)) {
         return NextResponse.json({ error: 'Failed to generate ID' }, { status: 500 });
     }
 
-    const newPost = { ...payload, id: newId };
+    const newPost = { ...payload, id: newId, createdAt };
     const newPosts = [...posts, newPost];
     await writePosts(newPosts);
 

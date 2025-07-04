@@ -6,6 +6,7 @@ import { promises as fs } from 'fs';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { PostType } from '@/type/post/PostType';
+import { format } from 'date-fns';
 
 const jsonPath = path.resolve('./src/data/card_posts.json');
 
@@ -33,7 +34,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         return NextResponse.json({ error: 'Update Failed' }, { status: 400 });
     }
 
-    const posts = (await readPosts()).map((p) => (p.id === payload.id ? { ...p, ...payload } : p));
+    const createdAt = format(new Date(), 'yyyy-MM-dd');
+    const posts = (await readPosts()).map((p) => (p.id === payload.id ? { ...p, ...payload, createdAt } : p));
     await writePosts(posts);
     return NextResponse.json({ success: true });
 }
