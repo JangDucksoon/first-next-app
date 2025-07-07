@@ -1,6 +1,8 @@
 'use client';
+
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { FloatingLabel } from 'flowbite-react';
 import { AlertCircleIcon } from 'lucide-react';
@@ -9,14 +11,19 @@ import { cn } from '@/lib/utils';
 import { LoginType } from '@/type/login/loginType';
 import { Alert, AlertDescription, AlertTitle } from '@/component/elements/alert';
 import { alertBox } from '@/lib/alert-store';
+import { httpLogin } from '@/lib/user-module';
+import { userStore } from '@/lib/user-store';
 
 export default function SigninForm() {
     const [loginForm, setLoginForm] = useState<LoginType>({ id: '', password: '' });
     const [firstRender, setFirstRender] = useState(true);
-
+    const { push } = useRouter();
     const validateResult = loginSchema.safeParse(loginForm);
     const errorForm = validateResult.success ? {} : validateResult.error.flatten().fieldErrors;
     const errorArray: Array<string> = validateResult.success ? [] : Object.values(errorForm).flat(1);
+
+    //스토어 함수 구독
+    const setUser = userStore((state) => state.setUser);
 
     function stateChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
         const name = e.target.name;
@@ -25,14 +32,25 @@ export default function SigninForm() {
         setLoginForm({ ...loginForm, [name]: value });
     }
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (firstRender) {
             setFirstRender(false);
         }
 
         if (validateResult.success) {
-            alertBox.show(JSON.stringify(loginForm));
+            const result = await httpLogin(loginForm);
+            if (result.message) {
+                alertBox.show(result.message);
+                return;
+            }
+
+            if (!result.picture) {
+                result.picture = '/images/default-user.png';
+            }
+
+            setUser(result);
+            push('/');
         } else {
             const message = errorArray.map((err) => `· ${err}`).join('\r\n');
             alertBox.show(message);

@@ -1,7 +1,8 @@
 'use client';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
+import { useRouter } from 'next/navigation';
 import {
     Navbar,
     NavBody,
@@ -13,8 +14,22 @@ import {
     MobileNavToggle,
     MobileNavMenu
 } from '@/component/elements/resizable-navbar';
+import { userStore } from '@/lib/user-store';
+import { AnimatedTooltip } from '@/component/elements/animated-tooltip';
+import { httpLogout } from '@/lib/user-module';
 
 export function MenuNavbar() {
+    const isLogin = userStore((state) => state.isAuthenticated);
+    const user = userStore((state) => state.user);
+    const logout = userStore((state) => state.logout);
+    const { push } = useRouter();
+
+    async function logoutProcess() {
+        await httpLogout();
+        logout();
+        push('/');
+    }
+
     const navItems = [
         {
             name: 'Post',
@@ -48,9 +63,24 @@ export function MenuNavbar() {
                     <NavbarLogo />
                     <NavItems items={navItems} />
                     <div className="flex items-center gap-4">
-                        <NavbarButton variant="primary" href="/login">
-                            Login
-                        </NavbarButton>
+                        {isLogin ? (
+                            <AnimatedTooltip
+                                items={[
+                                    {
+                                        id: user.id,
+                                        name: user.name,
+                                        designation: user.orgnztNm,
+                                        image: user.picture
+                                    }
+                                ]}
+                                className="cursor-pointer"
+                                onClick={logoutProcess}
+                            />
+                        ) : (
+                            <NavbarButton variant="primary" href="/login">
+                                Login
+                            </NavbarButton>
+                        )}
                     </div>
                 </NavBody>
 
@@ -73,9 +103,13 @@ export function MenuNavbar() {
                             </Link>
                         ))}
                         <div className="flex w-full flex-col gap-4">
-                            <NavbarButton href="/login" onClick={() => setIsMobileMenuOpen(false)} variant="primary" className="w-auto">
-                                Login
-                            </NavbarButton>
+                            {isLogin ? (
+                                <div>{user.name}</div>
+                            ) : (
+                                <NavbarButton href="/login" onClick={() => setIsMobileMenuOpen(false)} variant="primary" className="w-auto">
+                                    Login
+                                </NavbarButton>
+                            )}
                         </div>
                     </MobileNavMenu>
                 </MobileNav>
