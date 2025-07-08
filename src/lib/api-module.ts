@@ -37,8 +37,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
         const response = await fetch(url, config);
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: response.statusText }));
-            throw new Error(`API Error: ${response.status} - ${errorData.message || 'An unknown error occurred'}`);
+            return null as T;
         }
 
         if (response.status === 204) {
@@ -47,8 +46,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 
         return (await response.json()) as T;
     } catch (error) {
-        console.error('API Client Error:', error);
-        throw error;
+        return null as T;
     }
 }
 

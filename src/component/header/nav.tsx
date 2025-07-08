@@ -17,14 +17,18 @@ import {
 } from '@/component/elements/resizable-navbar';
 import { userStore } from '@/lib/user-store';
 import { AnimatedTooltip } from '@/component/elements/animated-tooltip';
-import { httpLogout } from '@/lib/user-module';
+import { httpLogout } from '@/lib/login-module';
 import { alertBox } from '@/lib/alert-store';
 
 export function MenuNavbar() {
-    const isLogin = userStore((state) => state.isAuthenticated);
+    const { push } = useRouter();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
     const user = userStore((state) => state.user);
     const logout = userStore((state) => state.logout);
-    const { push } = useRouter();
+
+    if (user === undefined) return null;
+    console.log(`user ::: ${JSON.stringify(user)}`);
 
     async function logoutProcess() {
         const result = await httpLogout();
@@ -58,8 +62,6 @@ export function MenuNavbar() {
         }
     ];
 
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
     return (
         <div className="relative w-full">
             <Navbar>
@@ -68,13 +70,13 @@ export function MenuNavbar() {
                     <NavbarLogo />
                     <NavItems items={navItems} />
                     <div className="flex items-center gap-4">
-                        {isLogin ? (
+                        {user ? (
                             <AnimatedTooltip
                                 items={[
                                     {
                                         id: user.id,
                                         name: user.name,
-                                        designation: user.orgnztNm,
+                                        designation: '',
                                         image: user.picture
                                     }
                                 ]}
@@ -108,7 +110,7 @@ export function MenuNavbar() {
                             </Link>
                         ))}
                         <div className="flex w-full flex-col gap-4">
-                            {isLogin ? (
+                            {user ? (
                                 <div>{user.name}</div>
                             ) : (
                                 <NavbarButton href="/login" onClick={() => setIsMobileMenuOpen(false)} variant="primary" className="w-auto">

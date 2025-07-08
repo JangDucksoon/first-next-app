@@ -1,3 +1,5 @@
+'use server';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 const API_URL = 'http://127.0.0.1:8011/api';

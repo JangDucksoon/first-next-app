@@ -3,15 +3,13 @@ import { create } from 'zustand';
 import { UserType } from '@/type/login/loginType';
 
 type AuthState = {
-    user: UserType | null;
-    isAuthenticated: boolean;
+    user?: UserType | null;
     setUser: (user: UserType | null) => void;
     logout: () => void;
 };
 
 export const userStore = create<AuthState>((set) => ({
-    user: null,
-    isAuthenticated: false,
-    setUser: (user, bool) => set({ user, isAuthenticated: bool }),
-    logout: () => set({ user: null, isAuthenticated: false })
+    user: undefined,
+    setUser: (user) => set({ user }),
+    logout: () => set({ user: null })
 }));

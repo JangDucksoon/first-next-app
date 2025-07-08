@@ -11,18 +11,17 @@ import { cn } from '@/lib/utils';
 import { LoginType } from '@/type/login/loginType';
 import { Alert, AlertDescription, AlertTitle } from '@/component/elements/alert';
 import { alertBox } from '@/lib/alert-store';
-import { httpLogin } from '@/lib/user-module';
+import { httpLogin } from '@/lib/login-module';
 import { userStore } from '@/lib/user-store';
 
 export default function SigninForm() {
     const [loginForm, setLoginForm] = useState<LoginType>({ id: '', password: '' });
     const [firstRender, setFirstRender] = useState(true);
-    const { push } = useRouter();
+    const { replace } = useRouter();
     const validateResult = loginSchema.safeParse(loginForm);
     const errorForm = validateResult.success ? {} : validateResult.error.flatten().fieldErrors;
     const errorArray: Array<string> = validateResult.success ? [] : Object.values(errorForm).flat(1);
 
-    //스토어 함수 구독
     const setUser = userStore((state) => state.setUser);
 
     function stateChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
@@ -49,8 +48,8 @@ export default function SigninForm() {
                 result.picture = '/images/default-user.png';
             }
 
-            setUser(result, true);
-            push('/');
+            setUser(result);
+            replace('/');
         } else {
             const message = errorArray.map((err) => `· ${err}`).join('\r\n');
             alertBox.show(message);
