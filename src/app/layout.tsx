@@ -23,8 +23,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <ThemeModeScript />
             </head>
             <body className={`${robotoMedium.className} antialiased`}>
-                <MenuNavbar />
                 <InitUser />
+                <MenuNavbar />
                 <AlertBox />
                 {children}
             </body>

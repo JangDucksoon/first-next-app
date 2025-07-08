@@ -49,7 +49,7 @@ export default function SigninForm() {
                 result.picture = '/images/default-user.png';
             }
 
-            setUser(result);
+            setUser(result, true);
             push('/');
         } else {
             const message = errorArray.map((err) => `· ${err}`).join('\r\n');

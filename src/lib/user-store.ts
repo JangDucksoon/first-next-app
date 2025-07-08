@@ -12,6 +12,6 @@ type AuthState = {
 export const userStore = create<AuthState>((set) => ({
     user: null,
     isAuthenticated: false,
-    setUser: (user) => set({ user, isAuthenticated: true }),
+    setUser: (user, bool) => set({ user, isAuthenticated: bool }),
     logout: () => set({ user: null, isAuthenticated: false })
 }));
