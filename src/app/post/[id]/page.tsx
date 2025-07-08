@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: { params: Promise<PostType> }) {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     const { id } = (await props.params) || 0;
     const post = await getPost(+id);
 
@@ -32,7 +33,7 @@ export default async function Page(props: { params: Promise<PostType> }) {
 
                     <CardContent className="space-y-4">
                         <div className="relative h-60 w-full overflow-hidden rounded-xl">
-                            <FallbackImage src={post.imageSrc} alt={post.title} fill priority />
+                            <FallbackImage src={post.imageSrc} alt={post.title} />
                         </div>
 
                         <Separator />
