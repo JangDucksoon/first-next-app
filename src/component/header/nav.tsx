@@ -19,6 +19,18 @@ import { userStore } from '@/lib/user-store';
 import { AnimatedTooltip } from '@/component/elements/animated-tooltip';
 import { httpLogout } from '@/lib/login-module';
 import { alertBox } from '@/lib/alert-store';
+import { LogIn, LogOut } from 'lucide-react';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger
+} from '@/component/elements/dropdown-menu';
+import { Button } from '@/component/elements/stateful-button';
 
 export function MenuNavbar() {
     const { push } = useRouter();
@@ -28,7 +40,6 @@ export function MenuNavbar() {
     const logout = userStore((state) => state.logout);
 
     if (user === undefined) return null;
-    console.log(`user ::: ${JSON.stringify(user)}`);
 
     async function logoutProcess() {
         const result = await httpLogout();
@@ -71,21 +82,39 @@ export function MenuNavbar() {
                     <NavItems items={navItems} />
                     <div className="flex items-center gap-4">
                         {user ? (
-                            <AnimatedTooltip
-                                items={[
-                                    {
-                                        id: user.id,
-                                        name: user.name,
-                                        designation: '',
-                                        image: user.picture
-                                    }
-                                ]}
-                                className="cursor-pointer"
-                                onClick={logoutProcess}
-                            />
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button className="focus:outline-none">
+                                        <AnimatedTooltip
+                                            items={[
+                                                {
+                                                    id: user.id,
+                                                    name: user.name,
+                                                    designation: '',
+                                                    image: user.picture
+                                                }
+                                            ]}
+                                            className="z-10 cursor-pointer"
+                                        />
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-56" align="start">
+                                    <DropdownMenuLabel className="font-bold">My Profile</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem className="cursor-pointer">
+                                            <Link href="/user">Profile</Link>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem className="cursor-pointer" onClick={logoutProcess}>
+                                        Log out
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         ) : (
                             <NavbarButton variant="primary" href="/login">
-                                Login
+                                <LogIn className="hover:text-blue-500" />
                             </NavbarButton>
                         )}
                     </div>

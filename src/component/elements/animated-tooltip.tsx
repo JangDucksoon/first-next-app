@@ -15,7 +15,7 @@ export const AnimatedTooltip = ({
         image: string;
     }[];
     className?: string;
-    onClick: React.MouseEventHandler<HTMLImageElement>;
+    onClick?: React.MouseEventHandler<HTMLImageElement>;
 }) => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const springConfig = { stiffness: 100, damping: 5 };
