@@ -5,9 +5,9 @@ import { promises as fs } from 'fs';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { isNumber } from 'lodash';
+import { format } from 'date-fns';
 
 import { PostType } from '@/type/post/PostType';
-import { format } from 'date-fns';
 
 const jsonPath = path.resolve('./src/data/card_posts.json');
 

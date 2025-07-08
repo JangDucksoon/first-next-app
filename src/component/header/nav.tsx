@@ -1,8 +1,9 @@
 'use client';
+
 import React, { useState } from 'react';
 import Link from 'next/link';
-
 import { useRouter } from 'next/navigation';
+
 import {
     Navbar,
     NavBody,
@@ -17,6 +18,7 @@ import {
 import { userStore } from '@/lib/user-store';
 import { AnimatedTooltip } from '@/component/elements/animated-tooltip';
 import { httpLogout } from '@/lib/user-module';
+import { alertBox } from '@/lib/alert-store';
 
 export function MenuNavbar() {
     const isLogin = userStore((state) => state.isAuthenticated);
@@ -25,7 +27,10 @@ export function MenuNavbar() {
     const { push } = useRouter();
 
     async function logoutProcess() {
-        await httpLogout();
+        const result = await httpLogout();
+        if (result.status !== 200) {
+            alertBox.show(result.message);
+        }
         logout();
         push('/');
     }

@@ -1,12 +1,20 @@
 'use server';
 
+import { cookies } from 'next/headers';
+
 const API_BASE_URL = 'http://localhost:8011/api';
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     const url = `${API_BASE_URL}${path}`;
+    const cookiesStore = await cookies();
+    const cookieHeader = cookiesStore
+        .getAll()
+        .map(({ name, value }) => `${name}=${value}`)
+        .join('; ');
 
     const headers = new Headers({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...(cookieHeader ? { Cookie: cookieHeader } : {})
     });
 
     if (options.headers) {
