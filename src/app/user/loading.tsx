@@ -1,12 +1,6 @@
-import { notFound } from 'next/navigation';
-import { httpGet } from '@/lib/api-module';
-import { UserType } from '@/type/login/loginType';
+import { PurseCell } from '@/component/post/table';
 
-export default async function Page() {
-    const user = await httpGet<UserType>('/user/token-user');
-    if (!user) {
-        notFound();
-    }
+export default function Loading() {
     return (
         <div className="bg-gray-100 p-6">
             <div className="mx-auto max-w-4xl rounded-2xl bg-white p-6 shadow-lg">
@@ -17,17 +11,23 @@ export default async function Page() {
                 <div className="space-y-6">
                     <div className="flex items-center justify-between">
                         <div className="text-sm text-gray-500">User ID</div>
-                        <div className="text-base font-medium text-gray-900">{user.id}</div>
+                        <div className="min-w-50 text-base font-medium text-gray-900">
+                            <PurseCell />
+                        </div>
                     </div>
 
                     <div className="flex items-center justify-between">
                         <div className="text-sm text-gray-500">Name</div>
-                        <div className="text-base font-medium text-gray-900">{user.name}</div>
+                        <div className="min-w-50 text-base font-medium text-gray-900">
+                            <PurseCell />
+                        </div>
                     </div>
 
                     <div className="flex items-center justify-between">
                         <div className="text-sm text-gray-500">Author Code</div>
-                        <div className="text-base font-medium text-gray-900">{user.authorCode}</div>
+                        <div className="min-w-50 text-base font-medium text-gray-900">
+                            <PurseCell />
+                        </div>
                     </div>
                 </div>
             </div>

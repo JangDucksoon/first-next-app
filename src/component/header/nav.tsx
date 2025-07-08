@@ -19,7 +19,7 @@ import { userStore } from '@/lib/user-store';
 import { AnimatedTooltip } from '@/component/elements/animated-tooltip';
 import { httpLogout } from '@/lib/login-module';
 import { alertBox } from '@/lib/alert-store';
-import { LogIn, LogOut } from 'lucide-react';
+import { Info, LogIn, LogOut } from 'lucide-react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -102,13 +102,21 @@ export function MenuNavbar() {
                                     <DropdownMenuLabel className="font-bold">My Profile</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuGroup>
-                                        <DropdownMenuItem className="cursor-pointer">
-                                            <Link href="/user">Profile</Link>
+                                        <DropdownMenuItem className="cursor-pointer" asChild>
+                                            <Link href="/user">
+                                                Profile
+                                                <DropdownMenuShortcut>
+                                                    <Info />
+                                                </DropdownMenuShortcut>
+                                            </Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem className="cursor-pointer" onClick={logoutProcess}>
                                         Log out
+                                        <DropdownMenuShortcut>
+                                            <LogOut />
+                                        </DropdownMenuShortcut>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>

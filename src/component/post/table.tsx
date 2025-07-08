@@ -34,7 +34,7 @@ export async function PostTable({ term }: SearchFilterType) {
                                     <span className="truncate">{row.id}</span>
                                 </TableCell>
                                 <TableCell className="text-center">
-                                    <Link href={`http://localhost:3000/post/${row.id}`} className="underline">
+                                    <Link href={`/post/${row.id}`} className="underline">
                                         <span className="block max-w-full truncate hover:animate-bounce">{row.title}</span>
                                     </Link>
                                 </TableCell>
