@@ -38,7 +38,8 @@ export default function SigninForm() {
         }
 
         if (validateResult.success) {
-            const result = await httpLogin(loginForm);
+            let result = await httpLogin(loginForm);
+
             if (result.message) {
                 alertBox.show(result.message);
                 return;

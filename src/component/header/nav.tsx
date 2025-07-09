@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Info, LogIn, LogOut } from 'lucide-react';
 
 import {
     Navbar,
@@ -19,7 +20,6 @@ import { userStore } from '@/lib/user-store';
 import { AnimatedTooltip } from '@/component/elements/animated-tooltip';
 import { httpLogout } from '@/lib/login-module';
 import { alertBox } from '@/lib/alert-store';
-import { Info, LogIn, LogOut } from 'lucide-react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -30,7 +30,6 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger
 } from '@/component/elements/dropdown-menu';
-import { Button } from '@/component/elements/stateful-button';
 
 export function MenuNavbar() {
     const { push } = useRouter();
@@ -56,8 +55,8 @@ export function MenuNavbar() {
             link: '/post'
         },
         {
-            name: 'Category',
-            link: '/category'
+            name: 'Data',
+            link: '/data'
         },
         {
             name: 'Dashboard',

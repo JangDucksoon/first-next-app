@@ -19,5 +19,5 @@ export async function httpLogout() {
             'Content-Type': 'application/json'
         }
     });
-    return await result.json();
+    return result.json();
 }

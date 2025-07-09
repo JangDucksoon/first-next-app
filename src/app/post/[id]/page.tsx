@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: { params: Promise<PostType> }) {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
     const { id } = (await props.params) || 0;
     const post = await getPost(+id);
 
