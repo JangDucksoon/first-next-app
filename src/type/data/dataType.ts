@@ -13,3 +13,9 @@ export type DomainType = {
     stdDmnExpln: string;
     stdDmnDataTypeNm: string;
 };
+
+export type TermType = {
+    stdTrmId: string;
+    stdTrmEngAbbrNm: string;
+    stdTrmExpln: string;
+};
