@@ -6,7 +6,7 @@ import { DomainType } from '@/type/data/dataType';
 import { PurseCell } from '@/component/post/table';
 
 export default async function Domains() {
-    const domains: Array<DomainType> = (await httpGet('/standard/domain?pageSize=300&pageNum=1')).data;
+    const domains: Array<DomainType> = await httpGet('/standard/domain/domains');
     const cards = domains.map((dmn) => ({
         title: dmn.stdDmnNm,
         description: `${dmn.stdDmnGrpNm} - ${dmn.stdDmnClsfNm} (${dmn.stdDmnDataTypeNm})`,

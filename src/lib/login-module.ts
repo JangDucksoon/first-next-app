@@ -1,7 +1,7 @@
 'use client';
 
 export async function httpLogin(payload: any) {
-    const result = await fetch('http://localhost:3000/api/login', {
+    const result = await fetch('/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -13,7 +13,7 @@ export async function httpLogin(payload: any) {
 }
 
 export async function httpLogout() {
-    const result = await fetch('http://localhost:3000/api/logout', {
+    const result = await fetch('/api/logout', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
