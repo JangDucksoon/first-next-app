@@ -9,7 +9,7 @@ export const AnimatedTooltip = ({
     onClick
 }: {
     items: {
-        id: number;
+        id: string;
         name: string;
         designation: string;
         image: string;
@@ -17,7 +17,7 @@ export const AnimatedTooltip = ({
     className?: string;
     onClick?: React.MouseEventHandler<HTMLImageElement>;
 }) => {
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
     const springConfig = { stiffness: 100, damping: 5 };
     const x = useMotionValue(0); // going to set this value on mouse move
     // rotate the tooltip
@@ -31,7 +31,7 @@ export const AnimatedTooltip = ({
 
     return (
         <>
-            {items.map((item, idx) => (
+            {items.map((item) => (
                 <div className="group relative -mr-4" key={item.name} onMouseEnter={() => setHoveredIndex(item.id)} onMouseLeave={() => setHoveredIndex(null)}>
                     <AnimatePresence mode="popLayout">
                         {hoveredIndex === item.id && (
