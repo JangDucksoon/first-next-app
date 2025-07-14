@@ -22,6 +22,7 @@
         "@react-three/drei": "^10.4.2",
         "@react-three/fiber": "9.0.0-alpha.8",
         "@tabler/icons-react": "^3.34.0",
+        "@types/axios": "^0.14.4",
         "autoprefixer": "^10.4.21",
         "axios": "^1.10.0",
         "class-variance-authority": "^0.7.1",

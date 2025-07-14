@@ -1,23 +1,21 @@
 'use client';
 
-export async function httpLogin(payload: any) {
-    const result = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ payload })
-    });
+import axios from 'axios';
 
-    return result.json();
+export async function httpLogin(payload: any) {
+    try {
+        const response = await axios.post('/api/login', { payload });
+        return response.data;
+    } catch (error: any) {
+        return { message: error.response?.data?.message || 'Login failed' };
+    }
 }
 
 export async function httpLogout() {
-    const result = await fetch('/api/logout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-    return result.json();
+    try {
+        const response = await axios.post('/api/logout', {});
+        return { message: 'Logout successfully', status: response.status };
+    } catch (error: any) {
+        return { message: error.response?.data?.message || 'Logout failed' };
+    }
 }

@@ -2,34 +2,19 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_URL = 'http://127.0.0.1:8011/api';
+import apiInstance from '@/lib/axios-instance-module';
 
 export async function POST(req: NextRequest) {
-    const url = `${API_URL}/logout`;
-
-    const headers = new Headers({
-        'Content-Type': 'application/json',
-        Cookie: req.headers.get('Cookie') || ''
-    });
-
-    const config: RequestInit = {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({})
-    };
-
     try {
-        const apiResponse = await fetch(url, config);
-        const nextResponse = NextResponse.json({ status: 200 });
-
-        apiResponse.headers.forEach((value, key) => {
-            if (key.toLowerCase() === 'set-cookie') {
-                nextResponse.headers.append(key, value);
-            }
+        const apiResponse = await apiInstance.post('/logout', {});
+        const nextResponse = NextResponse.json({}, { status: apiResponse.status });
+        const responseCookie = req.cookies.getAll();
+        responseCookie.forEach(({ name }) => {
+            nextResponse.cookies.delete(name);
         });
 
         return nextResponse;
     } catch (error) {
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
 }

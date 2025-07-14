@@ -87,10 +87,10 @@ export function MenuNavbar() {
                                         <AnimatedTooltip
                                             items={[
                                                 {
-                                                    id: user.id,
+                                                    id: +user.id,
                                                     name: user.name,
                                                     designation: '',
-                                                    image: user.picture
+                                                    image: user.picture || ''
                                                 }
                                             ]}
                                             className="z-10 cursor-pointer"
