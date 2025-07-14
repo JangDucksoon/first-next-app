@@ -14,7 +14,7 @@ import { alertBox } from '@/lib/alert-store';
 import { httpLogin } from '@/lib/login-module';
 import { userStore } from '@/lib/user-store';
 
-export default function SigninForm() {
+export default function SigninForm({ from }: { from?: string }) {
     const [loginForm, setLoginForm] = useState<LoginType>({ id: '', password: '' });
     const [firstRender, setFirstRender] = useState(true);
     const { replace } = useRouter();
@@ -50,7 +50,9 @@ export default function SigninForm() {
             }
 
             setUser(result);
-            replace('/');
+            console.log(`from ::: ${from}`);
+            const replaceUrl = from || '/';
+            replace(replaceUrl);
         } else {
             const message = errorArray.map((err) => `· ${err}`).join('\r\n');
             alertBox.show(message);
