@@ -4,7 +4,7 @@ import { TermType } from '@/type/data/dataType';
 import { PurseCell } from '@/component/post/table';
 
 export default async function Terms() {
-    const terms: Array<TermType> = (await httpGet('/standard/term?pageSize=300')).data;
+    const terms: Array<TermType> = (await httpGet<{ data: Array<TermType> }>('/standard/term?pageSize=300')).data;
     return (
         <Accordion type="single" collapsible className="w-full cursor-pointer">
             {terms.map((term) => (
@@ -25,7 +25,7 @@ export async function TermsSkeleton() {
     return (
         <Accordion type="single" collapsible className="w-full cursor-pointer">
             {dumpArray.map((_, idx) => (
-                <AccordionItem key={idx}>
+                <AccordionItem key={idx} value={idx + ''}>
                     <AccordionTrigger disabled className="cursor-pointer">
                         <div className="w-full">
                             <PurseCell />

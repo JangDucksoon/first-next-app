@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Info, LogIn, LogOut } from 'lucide-react';
 
 import {
@@ -33,10 +33,12 @@ import {
 
 export function MenuNavbar() {
     const { push } = useRouter();
+    const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const user = userStore((state) => state.user);
     const logout = userStore((state) => state.logout);
+    console.log(`user :::: ${!!user}`);
 
     if (user === undefined) return null;
 
@@ -46,7 +48,7 @@ export function MenuNavbar() {
             alertBox.show(result.message);
         }
         logout();
-        push('/');
+        push(pathname);
     }
 
     const navItems = [

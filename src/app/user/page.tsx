@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
-import { httpGet } from '@/lib/api-module';
+
+import { getUserStatus } from '@/lib/api-module';
 import { UserType } from '@/type/login/loginType';
 
 export default async function Page() {
-    const user = await httpGet<UserType>('/user/token-user');
+    const user = await getUserStatus<UserType>();
     if (!user) {
         notFound();
     }

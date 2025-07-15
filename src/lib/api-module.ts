@@ -1,67 +1,95 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { AxiosHeaders } from 'axios';
 
-const API_BASE_URL = 'http://localhost:8011/api';
+import apiInstance from './axios-instance-module';
 
-async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-    const url = `${API_BASE_URL}${path}`;
+async function request<T>(path: string, options: RequestInit = {}, payload?: any): Promise<T> {
+    console.log(`path ::::: ${path}`);
     const cookiesStore = await cookies();
     const cookieHeader = cookiesStore
         .getAll()
         .map(({ name, value }) => `${name}=${value}`)
         .join('; ');
 
-    const headers = new Headers({
-        'Content-Type': 'application/json',
-        ...(cookieHeader ? { Cookie: cookieHeader } : {})
-    });
+    const axiosHeaders = new AxiosHeaders();
 
     if (options.headers) {
-        const customHeaders = new Headers(options.headers);
-        customHeaders.forEach((value, key) => {
-            headers.append(key, value);
-        });
-    }
-
-    const config: RequestInit = {
-        ...options,
-        headers: headers
-    };
-
-    if ((config.method === 'POST' || config.method === 'PUT') && typeof config.body === 'object' && config.body !== null) {
-        config.body = JSON.stringify(config.body);
-    }
-
-    try {
-        const response = await fetch(url, config);
-
-        if (!response.ok) {
-            return null as T;
+        if (options.headers instanceof Headers) {
+            options.headers.forEach((value, key) => {
+                axiosHeaders.set(key, value);
+            });
+        } else if (Array.isArray(options.headers)) {
+            options.headers.forEach(([key, value]) => {
+                axiosHeaders.set(key, value);
+            });
+        } else {
+            // Assume it's Record<string, string>
+            for (const key in options.headers) {
+                if (Object.prototype.hasOwnProperty.call(options.headers, key)) {
+                    axiosHeaders.set(key, (options.headers as Record<string, string>)[key]);
+                }
+            }
         }
-
-        if (response.status === 204) {
-            return null as T;
-        }
-
-        return (await response.json()) as T;
-    } catch (error) {
-        return null as T;
     }
+    axiosHeaders.set('Cookie', cookieHeader);
+
+    let response;
+    switch (options.method) {
+        case 'GET':
+            response = await apiInstance.get<T>(path, { headers: axiosHeaders });
+            break;
+        case 'POST':
+            response = await apiInstance.post<T>(path, payload, { headers: axiosHeaders });
+            break;
+        case 'PUT':
+            response = await apiInstance.put<T>(path, payload, { headers: axiosHeaders });
+            break;
+        case 'DELETE':
+            response = await apiInstance.delete<T>(path, { headers: axiosHeaders });
+            break;
+    }
+
+    return (response?.data || null) as T;
 }
 
 export async function httpGet<T>(path: string, options?: RequestInit): Promise<T> {
-    return request<T>(path, { ...options, method: 'GET' });
+    try {
+        return await request<T>(path, { ...options, method: 'GET' });
+    } catch (error) {
+        return { message: 'Internal Server Error', status: 500 } as T;
+    }
 }
 
 export async function httpPost<T>(path: string, payload: any, options?: RequestInit): Promise<T> {
-    return request<T>(path, { ...options, method: 'POST', body: payload });
+    try {
+        return await request<T>(path, { ...options, method: 'POST' }, payload);
+    } catch (error) {
+        return { message: 'Internal Server Error', status: 500 } as T;
+    }
 }
 
 export async function httpPut<T>(path: string, payload: any, options?: RequestInit): Promise<T> {
-    return request<T>(path, { ...options, method: 'PUT', body: payload });
+    try {
+        return await request<T>(path, { ...options, method: 'PUT' }, payload);
+    } catch (error) {
+        return { message: 'Internal Server Error', status: 500 } as T;
+    }
 }
 
 export async function httpDelete<T>(path: string, options?: RequestInit): Promise<T> {
-    return request<T>(path, { ...options, method: 'DELETE' });
+    try {
+        return await request<T>(path, { ...options, method: 'DELETE' });
+    } catch (error) {
+        return { message: 'Internal Server Error', status: 500 } as T;
+    }
+}
+
+export async function getUserStatus<T>(): Promise<T> {
+    try {
+        return await request<T>('/user/token-user', { method: 'GET' });
+    } catch (error) {
+        return null as T;
+    }
 }

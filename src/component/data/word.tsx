@@ -3,7 +3,7 @@ import { WordType } from '@/type/data/dataType';
 import { GlareCard } from '@/component/elements/glare-card';
 
 export default async function Words() {
-    const words: Array<WordType> = (await httpGet('/standard/word?pageSize=100')).data;
+    const words: Array<WordType> = (await httpGet<{ data: Array<WordType> }>('/standard/word?pageSize=100')).data;
     if (!words) {
         return <WordsSkeleton />;
     }

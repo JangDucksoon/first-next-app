@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 import ExpandableCard from '@/component/elements/expandable-card';
 import { httpGet } from '@/lib/api-module';
@@ -6,7 +7,7 @@ import { DomainType } from '@/type/data/dataType';
 import { PurseCell } from '@/component/post/table';
 
 export default async function Domains() {
-    const domains: Array<DomainType> = await httpGet('/standard/domain/domains');
+    const domains = await httpGet<Array<DomainType>>('/standard/domain/domains');
     const cards = domains.map((dmn) => ({
         title: dmn.stdDmnNm,
         description: `${dmn.stdDmnGrpNm} - ${dmn.stdDmnClsfNm} (${dmn.stdDmnDataTypeNm})`,
@@ -16,7 +17,7 @@ export default async function Domains() {
         content: dmn.stdDmnExpln
     }));
 
-    function getImageSrc(name) {
+    function getImageSrc(name: string) {
         let imageName = 'no-image.svg';
         switch (name) {
             case 'ID':
@@ -57,7 +58,7 @@ export function DomainSkeleton() {
                 <div key={idx} className="pointer-events-none flex flex-col items-center justify-between rounded-xl p-4 md:flex-row">
                     <div className="flex flex-col gap-4 md:flex-row">
                         <div>
-                            <img
+                            <Image
                                 width="100"
                                 height="100"
                                 src="/images/no-image.svg"

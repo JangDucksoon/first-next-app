@@ -7,7 +7,7 @@ import { robotoMedium } from '@/font/font';
 import { AlertBox } from '@/component/elements/message-box';
 import { MenuNavbar } from '@/component/header/nav';
 import InitUser from '@/component/elements/init-user';
-import { httpGet } from '@/lib/api-module';
+import { getUserStatus } from '@/lib/api-module';
 import { UserType } from '@/type/login/loginType';
 
 export const metadata: Metadata = {
@@ -19,13 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    const user = await httpGet<UserType | null>('/user/token-user');
+    const user = await getUserStatus<UserType>();
 
     if (user) {
         if (!user.picture) {
             user.picture = '/images/default-user.png';
         }
     }
+
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
