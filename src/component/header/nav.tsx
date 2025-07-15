@@ -38,7 +38,6 @@ export function MenuNavbar() {
 
     const user = userStore((state) => state.user);
     const logout = userStore((state) => state.logout);
-    console.log(`user :::: ${!!user}`);
 
     if (user === undefined) return null;
 
