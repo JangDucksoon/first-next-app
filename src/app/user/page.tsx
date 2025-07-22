@@ -22,13 +22,30 @@ export default async function Page() {
                     </div>
 
                     <div className="flex items-center justify-between">
+                        <div className="text-sm text-gray-500">Unique ID</div>
+                        <div className="text-base font-medium text-gray-900">{user.uniqId}</div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
                         <div className="text-sm text-gray-500">Name</div>
                         <div className="text-base font-medium text-gray-900">{user.name}</div>
                     </div>
 
                     <div className="flex items-center justify-between">
                         <div className="text-sm text-gray-500">Author Code</div>
-                        <div className="text-base font-medium text-gray-900">{user.authorCode}</div>
+                        <div className="text-base font-medium text-gray-900">
+                            {user.authorCode}-{user.authorNm}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                        <div className="text-sm text-gray-500">Email</div>
+                        <div className="text-base font-medium text-gray-900">{user.email}</div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                        <div className="text-sm text-gray-500">Organization</div>
+                        <div className="text-base font-medium text-gray-900">{user.orgnztNm}</div>
                     </div>
                 </div>
             </div>

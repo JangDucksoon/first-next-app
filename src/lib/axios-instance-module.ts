@@ -18,7 +18,7 @@ apiInstance.interceptors.request.use(
 );
 
 export const loginIntance: AxiosInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8011/api',
+    baseURL: 'http://192.168.30.100:32563',
     headers: {
         'Content-Type': 'application/json'
     },
