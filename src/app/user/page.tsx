@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 
-import { getUserStatus } from '@/lib/api-module';
 import { UserType } from '@/type/login/loginType';
+import { getUserStatus } from '@/lib/user-module';
 
 export default async function Page() {
-    const user = await getUserStatus<UserType>();
+    const user: UserType = await getUserStatus();
     if (!user) {
         notFound();
     }

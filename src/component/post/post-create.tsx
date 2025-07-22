@@ -8,7 +8,7 @@ import { FloatingLabel } from 'flowbite-react';
 import Link from 'next/link';
 import { AlertCircleIcon } from 'lucide-react';
 
-import { PostType } from '@/type/post/PostType';
+import { PostType } from '@/type/post/postType';
 import { insertPost } from '@/lib/post-api';
 import { alertBox } from '@/lib/alert-store';
 import { Button } from '@/component/elements/stateful-button';
@@ -87,7 +87,7 @@ export default function PostCreate() {
             <div className="flex justify-between md:col-span-2">
                 <Link
                     href={`/post`}
-                    className="min-w-[120px] transform rounded-lg border border-2 border-gray-200 bg-transparent px-6 py-2 font-bold transition duration-400 hover:-translate-y-1"
+                    className="min-w-[120px] transform rounded-lg border-2 border-gray-200 bg-transparent px-6 py-2 font-bold transition duration-400 hover:-translate-y-1"
                 >
                     ← Back
                 </Link>
@@ -110,7 +110,7 @@ export default function PostCreate() {
                 <FloatingLabel disabled variant="outlined" label="ID" value={postForm.id} />
             </div>
             <div>
-                <Select value={postForm.category || ''} name="category" onValueChange={stateChangeHandler}>
+                <Select value={postForm.category || ''} name="category" onValueChange={stateChangeHandler as any}>
                     <SelectTrigger
                         className={clsx('peer w-full appearance-none rounded-lg border border-gray-300 bg-transparent py-5.5', {
                             'border-red-600': errorForm.category
@@ -208,7 +208,7 @@ export default function PostCreate() {
                             <AlertTitle>The required rules for saving were not followed.</AlertTitle>
                             <AlertDescription>
                                 <ul className="list-inside list-disc text-sm">
-                                    {Object.keys(errorForm).map((key) => {
+                                    {(Object.keys(errorForm) as Array<keyof typeof errorForm>).map((key) => {
                                         return errorForm[key] ? <li key={key}>{errorForm[key]}</li> : null;
                                     })}
                                 </ul>

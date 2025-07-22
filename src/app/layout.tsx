@@ -7,8 +7,8 @@ import { robotoMedium } from '@/font/font';
 import { AlertBox } from '@/component/elements/message-box';
 import { MenuNavbar } from '@/component/header/nav';
 import InitUser from '@/component/elements/init-user';
-import { getUserStatus } from '@/lib/api-module';
 import { UserType } from '@/type/login/loginType';
+import { getUserStatus } from '@/lib/user-module';
 
 export const metadata: Metadata = {
     title: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    const user = await getUserStatus<UserType>();
+    const user: UserType = await getUserStatus();
 
     if (user) {
         if (!user.picture) {

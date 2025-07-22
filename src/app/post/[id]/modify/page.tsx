@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
 import { getPost } from '@/lib/post-api';
-import { PostType } from '@/type/post/PostType';
+import { PostType } from '@/type/post/postType';
 import PostModify from '@/component/post/post-modify';
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default async function Page(props: { params: Promise<PostType> }) {
     const { id } = (await props.params) || 0;
-    const post = await getPost(+id);
+    const post = await getPost(id!);
 
     if (!post.id) {
         notFound();

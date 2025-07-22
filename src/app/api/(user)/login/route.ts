@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import apiInstance from '@/lib/axios-instance-module';
+import { loginIntance } from '@/lib/axios-instance-module';
 
 export async function POST(req: NextRequest) {
     const { payload } = await req.json();
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-        const apiResponse = await apiInstance.post('/login', payload);
+        const apiResponse = await loginIntance.post('/login', payload);
         const nextResponse = NextResponse.json(apiResponse.data, { status: 200 });
         const cookies = apiResponse.headers['set-cookie'] || [];
 

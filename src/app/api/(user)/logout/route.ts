@@ -2,11 +2,11 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import apiInstance from '@/lib/axios-instance-module';
+import { loginIntance } from '@/lib/axios-instance-module';
 
 export async function POST(req: NextRequest) {
     try {
-        const apiResponse = await apiInstance.post('/logout', {});
+        const apiResponse = await loginIntance.post('/logout', {});
         const nextResponse = NextResponse.json({}, { status: apiResponse.status });
         const responseCookie = req.cookies.getAll();
         responseCookie.forEach(({ name }) => {

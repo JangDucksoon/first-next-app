@@ -1,29 +1,27 @@
 'use server';
 
-import { NextRequest, NextResponse } from 'next/server';
+import { AxiosHeaders } from 'axios';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
 
-const API_URL = 'http://localhost:8011/api';
-export async function GET(nextRequest: NextRequest) {
-    const url = `${API_URL}/user/token-user`;
+import { loginIntance } from '@/lib/axios-instance-module';
 
-    const headers = new Headers({
-        'Content-Type': 'application/json',
-        Cookie: nextRequest.headers.get('Cookie')
-    });
+export async function GET() {
+    const url = `/user/token-user`;
 
-    const config = {
-        method: 'GET',
-        headers: headers
-    };
+    const cookiesStore = await cookies();
+    const cookieHeader = cookiesStore
+        .getAll()
+        .map(({ name, value }) => `${name}=${value}`)
+        .join('; ');
+
+    const axiosHeaders = new AxiosHeaders();
+    axiosHeaders.set('Cookie', cookieHeader);
 
     try {
-        const apiResponse = await fetch(url, config);
-
-        if (!apiResponse.ok) {
-            return NextResponse.json(null, { status: apiResponse.status });
-        }
-        return NextResponse.json(await apiResponse.json(), { status: 200 });
+        const apiResponse = await loginIntance.get(url, { headers: axiosHeaders });
+        return NextResponse.json(apiResponse.data, { status: 200 });
     } catch (error) {
-        return NextResponse.json(null, { status: 401 });
+        return NextResponse.json(null, { status: 200 });
     }
 }

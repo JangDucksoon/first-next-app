@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 
 import SearchFilter from '@/component/post/search-filter';
-import { SearchFilterType } from '@/type/post/PostType';
+import { SearchFilterType } from '@/type/post/postType';
 import { PostTable, PostTableSkeleton } from '@/component/post/table';
 import ViewToggle from '@/component/post/view-toggle';
 import PostCards, { PostCardSkeleton } from '@/component/post/post-card';
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: { searchParams: Promise<SearchFilterType> }) {
-    let { term, category, view } = (await props.searchParams) || '';
+    let { term, view } = (await props.searchParams) || '';
     view = view !== 'table' ? 'card' : view;
 
     return (
@@ -33,7 +33,7 @@ export default async function Page(props: { searchParams: Promise<SearchFilterTy
                     ) : null}
                     {view === 'card' ? (
                         <Suspense key={term + view} fallback={<PostCardSkeleton />}>
-                            <PostCards term={term} category={category} />
+                            <PostCards term={term} />
                         </Suspense>
                     ) : null}
                 </div>

@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { PurseCell } from '@/component/post/table';
-import { PostType, SearchFilterType } from '@/type/post/PostType';
+import { PostType, SearchFilterType } from '@/type/post/postType';
 import { CardBody, CardContainer, CardItem } from '@/component/elements/3d-card';
 import { FallbackImage } from '@/component/elements/fallback-image';
 import { getAllPosts } from '@/lib/post-api';

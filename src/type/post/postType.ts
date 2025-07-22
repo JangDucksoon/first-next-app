@@ -2,10 +2,11 @@ export type SearchFilterType = {
     helperText?: string;
     term?: string;
     helperType?: string;
+    view?: 'card' | 'table';
 };
 
 export type PostType = {
-    id?: number;
+    id?: string;
     title?: string;
     summary?: string;
     author?: string;

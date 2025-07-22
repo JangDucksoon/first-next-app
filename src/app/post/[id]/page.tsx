@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 
 import { getPost } from '@/lib/post-api';
-import { PostType } from '@/type/post/PostType';
+import { PostType } from '@/type/post/postType';
 import { Card, CardContent, CardHeader, CardTitle } from '@/component/elements/card';
 import { ScrollArea } from '@/component/elements/scroll-area';
 import { Separator } from '@/component/elements/separator';
@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: { params: Promise<PostType> }) {
-    const { id } = (await props.params) || 0;
-    const post = await getPost(+id);
+    const { id } = (await props.params) || '0';
+    const post = await getPost(id!);
 
     if (!post.id) {
         notFound();
@@ -32,7 +32,7 @@ export default async function Page(props: { params: Promise<PostType> }) {
 
                     <CardContent className="space-y-4">
                         <div className="relative h-60 w-full overflow-hidden rounded-xl">
-                            <FallbackImage src={post.imageSrc} alt={post.title} />
+                            <FallbackImage src={post.imageSrc} />
                         </div>
 
                         <Separator />

@@ -83,11 +83,3 @@ export async function httpDelete<T>(path: string, payload?: any, options?: Reque
         return { message: 'Internal Server Error', status: 500 } as T;
     }
 }
-
-export async function getUserStatus<T>(): Promise<T> {
-    try {
-        return await request<T>('/user/token-user', { method: 'GET' });
-    } catch (error) {
-        return null as T;
-    }
-}

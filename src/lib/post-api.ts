@@ -1,6 +1,6 @@
 'use server';
 
-import { PostType } from '@/type/post/PostType';
+import { PostType } from '@/type/post/postType';
 
 export async function getAllPosts(term: string): Promise<PostType[]> {
     const response = await fetch(`http://localhost:3000/api/posts?term=${term}`, { cache: 'no-store' });
@@ -10,7 +10,7 @@ export async function getAllPosts(term: string): Promise<PostType[]> {
     return response.json();
 }
 
-export async function getPost(id: number): Promise<PostType> {
+export async function getPost(id: string): Promise<PostType> {
     const response = await fetch(`http://localhost:3000/api/posts/${id}`, { cache: 'no-store' });
     return response.json();
 }
@@ -38,7 +38,7 @@ export async function updatePost(post: PostType) {
     return result.json();
 }
 
-export async function deletePost(id: number) {
+export async function deletePost(id: string) {
     const result = await fetch(`http://localhost:3000/api/posts/${id}`, {
         method: 'DELETE',
         headers: {

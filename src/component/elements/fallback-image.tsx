@@ -31,14 +31,14 @@ export function FallbackImage({ src }: { src: string | undefined | null }) {
 
     return (
         <Image
-            src={imageSrc} // 이제 imageSrc는 항상 유효한 URL이거나 대체 이미지 경로
+            src={imageSrc!}
             alt="images"
             height="1000"
             width="1000"
             className="object-fit h-60 w-full rounded-xl group-hover/card:shadow-xl"
             unoptimized
             priority
-            onError={() => setImageSrc('/images/no-image.svg')} // 혹시 모를 로드 실패에 대비
+            onError={() => setImageSrc('/images/no-image.svg')} // 로드 실패에 대비
         />
     );
 }
