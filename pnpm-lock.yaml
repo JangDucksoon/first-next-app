@@ -139,10 +139,10 @@ importers:
         specifier: ^0.178.0
         version: 0.178.1
       '@typescript-eslint/eslint-plugin':
-        specifier: ^8.35.0
+        specifier: ^8.36.0
         version: 8.36.0(@typescript-eslint/parser@8.36.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
       '@typescript-eslint/parser':
-        specifier: ^8.35.0
+        specifier: ^8.36.0
         version: 8.36.0(eslint@8.57.1)(typescript@5.8.3)
       eslint:
         specifier: ^8.57.1

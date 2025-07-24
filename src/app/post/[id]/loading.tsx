@@ -23,7 +23,7 @@ export default function Loading() {
 
                     <CardContent className="space-y-4">
                         <div className="relative h-60 w-full overflow-hidden rounded-xl">
-                            <FallbackImage src="" alt="skeleton" />
+                            <FallbackImage src="" />
                         </div>
 
                         <Separator />

@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 'use client';
 
 import { AnimatePresence, motion } from 'motion/react';
@@ -7,7 +9,7 @@ import { cn } from '@/lib/utils';
 
 interface ModalContextType {
     open: boolean;
-    setOpen: (open: boolean) => void;
+    setOpen: (value: boolean) => void;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);

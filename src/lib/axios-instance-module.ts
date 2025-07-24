@@ -1,7 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 
+import { API_URL } from './env';
+
 const apiInstance: AxiosInstance = axios.create({
-    baseURL: 'http://192.168.30.100:32563',
+    baseURL: API_URL,
     headers: {
         'Content-Type': 'application/json'
     },
@@ -18,7 +20,7 @@ apiInstance.interceptors.request.use(
 );
 
 export const loginIntance: AxiosInstance = axios.create({
-    baseURL: 'http://192.168.30.100:32563',
+    baseURL: process.env.KUBE_API_URL,
     headers: {
         'Content-Type': 'application/json'
     },

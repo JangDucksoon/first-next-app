@@ -1,9 +1,11 @@
 'use server';
 
+import { BASE_URL } from './env';
+
 import { PostType } from '@/type/post/postType';
 
 export async function getAllPosts(term: string): Promise<PostType[]> {
-    const response = await fetch(`http://localhost:3000/api/posts?term=${term}`, { cache: 'no-store' });
+    const response = await fetch(`${BASE_URL}/api/posts?term=${term}`, { cache: 'no-store' });
     if (!response.ok) {
         throw new Error('Failed to fetch posts');
     }
@@ -11,12 +13,12 @@ export async function getAllPosts(term: string): Promise<PostType[]> {
 }
 
 export async function getPost(id: string): Promise<PostType> {
-    const response = await fetch(`http://localhost:3000/api/posts/${id}`, { cache: 'no-store' });
+    const response = await fetch(`${BASE_URL}/api/posts/${id}`, { cache: 'no-store' });
     return response.json();
 }
 
 export async function insertPost(post: PostType) {
-    const result = await fetch('http://localhost:3000/api/posts', {
+    const result = await fetch(`${BASE_URL}/api/posts`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -28,7 +30,7 @@ export async function insertPost(post: PostType) {
 }
 
 export async function updatePost(post: PostType) {
-    const result = await fetch(`http://localhost:3000/api/posts/${post.id}`, {
+    const result = await fetch(`${BASE_URL}/api/posts/${post.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -39,7 +41,7 @@ export async function updatePost(post: PostType) {
 }
 
 export async function deletePost(id: string) {
-    const result = await fetch(`http://localhost:3000/api/posts/${id}`, {
+    const result = await fetch(`${BASE_URL}/api/posts/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'

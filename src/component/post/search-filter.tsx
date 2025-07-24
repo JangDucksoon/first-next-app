@@ -26,7 +26,7 @@ export default function SearchFilter() {
                 <FloatingLabel
                     variant="filled"
                     label="Search"
-                    onInput={(e) => inputHandler(e.target.value)}
+                    onInput={(e) => inputHandler(e.currentTarget.value)}
                     defaultValue={searchParam.get('term')?.toString()}
                 />
             </div>

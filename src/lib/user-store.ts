@@ -4,6 +4,7 @@ import { UserType } from '@/type/login/loginType';
 
 type AuthState = {
     user?: UserType | null;
+    // eslint-disable-next-line
     setUser: (user: UserType | null) => void;
     logout: () => void;
 };

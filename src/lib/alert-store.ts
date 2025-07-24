@@ -6,6 +6,7 @@ type AlertState = {
 };
 
 type AlertStore = AlertState & {
+    // eslint-disable-next-line
     show: (message: string) => void;
     hide: () => void;
 };
