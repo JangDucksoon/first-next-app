@@ -9,7 +9,7 @@ async function request<T>(path: string, options: RequestInit = {}, payload?: any
     const cookiesStore = await cookies();
     const cookieHeader = cookiesStore
         .getAll()
-        .map(({ name, value }) => `${name}=${value}`)
+        .map(({ name, value }: { name: string; value: string }) => `${name}=${value}`)
         .join('; ');
 
     const axiosHeaders = new AxiosHeaders();
