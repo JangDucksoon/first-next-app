@@ -19,7 +19,17 @@ const isValidUrl = (url: string | undefined | null): boolean => {
     }
 };
 
-export function FallbackImage({ src }: { src: string | undefined | null }) {
+export function FallbackImage({
+    src,
+    width,
+    height,
+    alt
+}: {
+    src: string | undefined | null;
+    width?: string | number;
+    height?: string | number;
+    alt?: string;
+}) {
     const [imageSrc, setImageSrc] = useState(isValidUrl(src) ? src : '/images/no-image.svg');
 
     useEffect(() => {
@@ -33,9 +43,9 @@ export function FallbackImage({ src }: { src: string | undefined | null }) {
     return (
         <Image
             src={imageSrc!}
-            alt="images"
-            height="1000"
-            width="1000"
+            alt={alt || 'image'}
+            height={height || 1000}
+            width={width || 1000}
             className="object-fit h-60 w-full rounded-xl group-hover/card:shadow-xl"
             unoptimized
             priority

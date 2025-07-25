@@ -8,40 +8,14 @@ import { PurseCell } from '@/component/post/table';
 
 export default async function Domains() {
     const domains = await httpGet<Array<DomainType>>('/domain');
-    const cards = domains.map((dmn) => ({
+    const cards = domains.map((dmn, idx) => ({
         title: dmn.stdDmnNm,
         description: `${dmn.stdDmnGrpNm} - ${dmn.stdDmnClsfNm} (${dmn.stdDmnDataTypeNm})`,
-        src: getImageSrc(dmn.stdDmnGrpNm),
+        src: `https://picsum.photos/${(((idx - 1) % 10) + 1) * 100}`,
         ctaText: 'Detail',
         ctaLink: '',
         content: dmn.stdDmnExpln
     }));
-
-    function getImageSrc(name: string) {
-        let imageName = 'no-image.svg';
-        switch (name) {
-            case 'ID':
-                imageName = 'id.png';
-                break;
-            case '금액':
-                imageName = 'gold.png';
-                break;
-            case '날짜/시간':
-                imageName = 'calendar.png';
-                break;
-            case '내용':
-                imageName = 'content.png';
-                break;
-            case '번호':
-                imageName = 'number.png';
-                break;
-            case '수량':
-                imageName = 'amount.png';
-                break;
-        }
-
-        return `/images/${imageName}`;
-    }
 
     return (
         <>
