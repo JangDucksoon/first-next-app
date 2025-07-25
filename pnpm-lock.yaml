@@ -141,6 +141,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^8.36.0
         version: 8.38.0(eslint@8.57.1)(typescript@5.8.3)
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       eslint:
         specifier: ^8.57.1
         version: 8.57.1

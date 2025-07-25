@@ -17,7 +17,7 @@ import { userStore } from '@/lib/user-store';
 export default function SigninForm({ from }: { from?: string }) {
     const [loginForm, setLoginForm] = useState<LoginType>({ id: '', password: '' });
     const [firstRender, setFirstRender] = useState(true);
-    const { replace } = useRouter();
+    const { replace, refresh } = useRouter();
     const validateResult = loginSchema.safeParse(loginForm);
     const errorForm = validateResult.success ? {} : validateResult.error.flatten().fieldErrors;
     const errorArray: Array<string> = validateResult.success ? [] : Object.values(errorForm).flat(1);
@@ -50,8 +50,10 @@ export default function SigninForm({ from }: { from?: string }) {
             }
 
             setUser(result);
+            console.log(':::refresh cache::::');
             const replaceUrl = from || '/';
             replace(replaceUrl);
+            refresh();
         } else {
             const message = errorArray.map((err) => `· ${err}`).join('\r\n');
             alertBox.show(message);

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
-
     const hasToken = request.cookies.get('Authentication');
 
     if (!hasToken) {
