@@ -1,15 +1,14 @@
 'use server';
 
 import { AxiosHeaders } from 'axios';
-import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { loginIntance } from '@/lib/axios-instance-module';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     const url = `/user/token-user`;
 
-    const cookiesStore = await cookies();
+    const cookiesStore = req.cookies;
     const cookieHeader = cookiesStore
         .getAll()
         .map(({ name, value }) => `${name}=${value}`)

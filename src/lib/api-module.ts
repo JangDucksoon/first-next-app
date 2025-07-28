@@ -47,7 +47,6 @@ async function request<T>(path: string, options: RequestInit = {}, payload?: any
             response = await apiInstance.delete<T>(path, { headers: axiosHeaders, params: payload });
             break;
     }
-
     return (response?.data || null) as T;
 }
 
