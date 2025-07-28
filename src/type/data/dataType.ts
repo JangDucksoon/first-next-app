@@ -3,6 +3,7 @@ export type WordType = {
     stdWordNm: string;
     stdWordEngAbbrNm: string;
     stdWordEngNm: string;
+    frmWordYn: 'Y' | 'N';
 };
 
 export type DomainType = {
@@ -18,4 +19,5 @@ export type TermType = {
     stdTrmId: string;
     stdTrmEngAbbrNm: string;
     stdTrmExpln: string;
+    wordTrmMpngList: any[];
 };

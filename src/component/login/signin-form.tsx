@@ -50,7 +50,6 @@ export default function SigninForm({ from }: { from?: string }) {
             }
 
             setUser(result);
-            console.log(':::refresh cache::::');
             const replaceUrl = from || '/';
             replace(replaceUrl);
             refresh();
