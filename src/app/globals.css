@@ -6,9 +6,7 @@
 @source '../../.flowbite-react/class-list.json';
 
 /* Tailwind CSS 지시어 추가 */
-@import 'tailwindcss/preflight';
-@tailwind utilities;
-
+@import 'tailwindcss';
 /* 기본 색상 변수 */
 
 /* 다크 모드일 때 색상 전환 */
