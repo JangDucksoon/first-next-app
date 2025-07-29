@@ -12,7 +12,6 @@ import { LoginType } from '@/type/login/loginType';
 import { Alert, AlertDescription, AlertTitle } from '@/component/elements/alert';
 import { alertBox } from '@/lib/alert-store';
 import { httpLogin } from '@/lib/login-module';
-import { userStore } from '@/lib/user-store';
 
 export default function SigninForm({ from }: { from?: string }) {
     const [loginForm, setLoginForm] = useState<LoginType>({ id: '', password: '' });
@@ -21,8 +20,6 @@ export default function SigninForm({ from }: { from?: string }) {
     const validateResult = loginSchema.safeParse(loginForm);
     const errorForm = validateResult.success ? {} : validateResult.error.flatten().fieldErrors;
     const errorArray: Array<string> = validateResult.success ? [] : Object.values(errorForm).flat(1);
-
-    const setUser = userStore((state) => state.setUser);
 
     function stateChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
         const name = e.target.name;
@@ -49,7 +46,6 @@ export default function SigninForm({ from }: { from?: string }) {
                 result.picture = '/images/default-user.png';
             }
 
-            setUser(result);
             const replaceUrl = from || '/';
             replace(replaceUrl);
             refresh();
