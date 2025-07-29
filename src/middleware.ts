@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axios, { AxiosHeaders } from 'axios';
 
-import { BASE_URL } from './lib/env';
+import { API_URL } from './lib/env';
 
 export async function middleware(request: NextRequest) {
     const fromUrl = request.nextUrl.pathname + request.nextUrl.search;
@@ -13,8 +12,9 @@ export async function middleware(request: NextRequest) {
         .getAll()
         .map(({ name, value }: { name: string; value: string }) => `${name}=${value}`)
         .join('; ');
-    const axiosHeaders = new AxiosHeaders();
-    axiosHeaders.set('Cookie', cookieHeader);
+    const fetchHeader = {
+        Cookie: cookieHeader
+    };
     const accessToken = cookiesStore.get('Authentication');
     const refreshToken = cookiesStore.get('Refresh');
 
@@ -32,12 +32,9 @@ export async function middleware(request: NextRequest) {
 
     if (accessToken) {
         let tokenStatus: number;
-        try {
-            const apiResponse = await axios.get(`${BASE_URL}/api/token`, { headers: axiosHeaders });
-            tokenStatus = apiResponse.status;
-        } catch (error: any) {
-            tokenStatus = error.response?.status || 401;
-        }
+        const apiResponse = await fetch(`${API_URL}/user/access-token`, { method: 'GET', headers: fetchHeader, cache: 'no-store' });
+        tokenStatus = apiResponse.status || 401;
+
         if (tokenStatus === 200) {
             return NextResponse.next();
         } else if (tokenStatus === 403 || tokenStatus === 400) {
@@ -46,17 +43,12 @@ export async function middleware(request: NextRequest) {
     }
 
     if (refreshToken) {
-        let newCookies: Array<string | undefined> | string | undefined = [];
+        let newCookies: string[] = [];
         let refreshStatus: number;
 
-        try {
-            const authResponse = await axios.post(`${BASE_URL}/api/token`, {}, { headers: axiosHeaders });
-            newCookies = authResponse.headers['set-cookie'];
-            refreshStatus = authResponse.status;
-        } catch (error: any) {
-            newCookies = [];
-            refreshStatus = error.response?.status;
-        }
+        const authResponse = await fetch(`${API_URL}/user/refresh-token`, { method: 'POST', headers: fetchHeader, cache: 'no-store' });
+        newCookies = authResponse.headers.getSetCookie();
+        refreshStatus = authResponse.status;
 
         let nextResponse: NextResponse<unknown> | undefined;
 
@@ -66,14 +58,7 @@ export async function middleware(request: NextRequest) {
             nextResponse = NextResponse.redirect(loginUrl);
         }
 
-        let cookiesArr = [];
-        if (!Array.isArray(newCookies)) {
-            cookiesArr = [newCookies];
-        } else {
-            cookiesArr = newCookies;
-        }
-
-        cookiesArr.forEach((c) => {
+        newCookies.forEach((c) => {
             nextResponse.headers.append('Set-Cookie', c!);
         });
 

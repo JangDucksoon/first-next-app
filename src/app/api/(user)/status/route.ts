@@ -19,8 +19,8 @@ export async function GET(req: NextRequest) {
 
     try {
         const apiResponse = await loginIntance.get(url, { headers: axiosHeaders });
-        return NextResponse.json(apiResponse.data, { status: 200 });
-    } catch (error) {
-        return NextResponse.json(null, { status: 200 });
+        return NextResponse.json(apiResponse.data, { status: apiResponse.status });
+    } catch (error: any) {
+        return NextResponse.json(null, { status: error.response?.status });
     }
 }

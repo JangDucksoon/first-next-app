@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    const user: UserType = await getUserStatus();
+    const user: UserType | null = await getUserStatus();
 
     if (user) {
         if (!user.picture) {

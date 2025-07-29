@@ -7,7 +7,7 @@ import { BASE_URL } from './env';
 
 import { UserType } from '@/type/login/loginType';
 
-export async function getUserStatus(): Promise<UserType> {
+export async function getUserStatus(): Promise<UserType | null> {
     const cookiesStore = await cookies();
     const cookieHeader = cookiesStore
         .getAll()
@@ -22,6 +22,6 @@ export async function getUserStatus(): Promise<UserType> {
         return response.data;
     } catch (error) {
         console.error(error);
-        throw error;
+        return null;
     }
 }
