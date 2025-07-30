@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
@@ -54,12 +54,6 @@ export default function SigninForm({ from }: { from?: string }) {
             alertBox.show(message);
         }
     }
-
-    useEffect(() => {
-        if (from) {
-            refresh();
-        }
-    }, [from, refresh]);
 
     return (
         <div className="shadow-input mx-auto w-full rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">

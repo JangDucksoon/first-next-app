@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     title: 'Dashboard',
     description: 'dashboard pages....'
 };
+
 export default function Page() {
     return (
         <div className="bg-gray-100 p-6">
