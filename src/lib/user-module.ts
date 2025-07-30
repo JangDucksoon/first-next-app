@@ -9,6 +9,11 @@ import { UserType } from '@/type/login/loginType';
 
 export async function getUserStatus(): Promise<UserType | null> {
     const cookiesStore = await cookies();
+
+    if (!cookiesStore.get('Authentication')) {
+        return null;
+    }
+
     const cookieHeader = cookiesStore
         .getAll()
         .map(({ name, value }: { name: string; value: string }) => `${name}=${value}`)
@@ -21,7 +26,6 @@ export async function getUserStatus(): Promise<UserType | null> {
         const response = await axios.get(`${BASE_URL}/api/status`, { headers: axiosHeaders });
         return response.data;
     } catch (error) {
-        console.error(error);
         return null;
     }
 }

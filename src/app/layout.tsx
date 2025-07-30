@@ -7,8 +7,6 @@ import { robotoMedium } from '@/font/font';
 import { AlertBox } from '@/component/elements/message-box';
 import { MenuNavbar } from '@/component/header/nav';
 import InitUser from '@/component/elements/init-user';
-import { UserType } from '@/type/login/loginType';
-import { getUserStatus } from '@/lib/user-module';
 
 export const metadata: Metadata = {
     title: {
@@ -19,21 +17,13 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    const user: UserType | null = await getUserStatus();
-
-    if (user) {
-        if (!user.picture) {
-            user.picture = '/images/default-user.png';
-        }
-    }
-
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
                 <ThemeModeScript />
             </head>
             <body className={`${robotoMedium.className} antialiased`}>
-                <InitUser user={user} />
+                <InitUser />
                 <MenuNavbar />
                 <AlertBox />
                 {children}
