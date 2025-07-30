@@ -4,7 +4,7 @@ import { UserType } from '@/type/login/loginType';
 import { getUserStatus } from '@/lib/user-module';
 
 export default async function Page() {
-    const user: UserType = await getUserStatus();
+    const user: UserType | null = await getUserStatus();
     if (!user) {
         notFound();
     }
