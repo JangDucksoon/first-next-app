@@ -9,7 +9,7 @@ import { PieType } from '@/type/dashboard/dashboardType';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
-export default function DictoionaryPie({ words, domains, terms }: { words: WordType[]; domains: DomainType[]; terms: TermType[] }) {
+export default function DictionaryPie({ words, domains, terms }: { words: WordType[]; domains: DomainType[]; terms: TermType[] }) {
     const data: PieType[] = [
         { label: 'Words', value: words.length },
         { label: 'Domains', value: domains.length },

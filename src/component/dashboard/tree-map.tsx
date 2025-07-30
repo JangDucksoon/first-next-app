@@ -5,7 +5,7 @@ import { ResponsiveContainer, Tooltip, Treemap } from 'recharts';
 import { TreeType } from '@/type/dashboard/dashboardType';
 import { DomainType, TermType, WordType } from '@/type/data/dataType';
 
-export default function DictoionaryTree({ words, domains, terms }: { words: WordType[]; domains: DomainType[]; terms: TermType[] }) {
+export default function DictionaryTree({ words, domains, terms }: { words: WordType[]; domains: DomainType[]; terms: TermType[] }) {
     const data: TreeType[] = [
         { label: 'Words', value: words.length },
         { label: 'Domains', value: domains.length },

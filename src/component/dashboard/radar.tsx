@@ -5,7 +5,7 @@ import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, Responsi
 import { RadarType } from '@/type/dashboard/dashboardType';
 import { DomainType, TermType, WordType } from '@/type/data/dataType';
 
-export default function DictoionaryRadar({ words, domains, terms }: { words: WordType[]; domains: DomainType[]; terms: TermType[] }) {
+export default function DictionaryRadar({ words, domains, terms }: { words: WordType[]; domains: DomainType[]; terms: TermType[] }) {
     const fullMark = words.length + domains.length + terms.length;
     const data: RadarType[] = [
         { label: 'Words', value: words.length },

@@ -1,8 +1,8 @@
-import DictoionaryRadar from '@/component/dashboard/radar';
+import DictionaryRadar from '@/component/dashboard/radar';
 import { httpGet } from '@/lib/api-module';
 import { DomainType, TermType, WordType } from '@/type/data/dataType';
 
 export default async function SecondChart() {
     const [words, domains, terms] = await Promise.all([httpGet<WordType[]>('/word'), httpGet<DomainType[]>('/domain'), httpGet<TermType[]>('/term')]);
-    return <DictoionaryRadar {...{ words, domains, terms }} />;
+    return <DictionaryRadar {...{ words, domains, terms }} />;
 }
