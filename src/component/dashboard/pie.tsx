@@ -26,6 +26,7 @@ export default function DictionaryPie({ words, domains, terms }: { words: WordTy
                     nameKey="label"
                     cx="50%"
                     cy="90%"
+                    isAnimationActive={false}
                     startAngle={180}
                     endAngle={0}
                     outerRadius={150}
@@ -68,6 +69,7 @@ export function WordsPie({ words }: { words: WordType[] }) {
                     nameKey="label"
                     cx="50%"
                     cy="90%"
+                    isAnimationActive={false}
                     startAngle={180}
                     endAngle={0}
                     outerRadius={150}

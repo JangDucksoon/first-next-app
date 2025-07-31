@@ -13,7 +13,7 @@ export default function DictionaryTree({ words, domains, terms }: { words: WordT
     ];
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <Treemap data={data} dataKey="value" nameKey="label" aspectRatio={4 / 3} stroke="#fff" fill="#8884d8">
+            <Treemap data={data} dataKey="value" nameKey="label" isAnimationActive={false} stroke="#fff" fill="#8884d8">
                 <Tooltip />
             </Treemap>
         </ResponsiveContainer>

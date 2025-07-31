@@ -41,7 +41,7 @@ export default function Page() {
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
                             <div className="flex w-full items-center border-b border-b-gray-200">
                                 <Tooltip style="dark" content="표준 사전 카테고리 분포 레이더 차트">
-                                    <h3 className="cursor-default pb-3 text-2xl font-bold">Category Distribution of Dictionary Entries (Radar)</h3>
+                                    <h3 className="cursor-default pb-3 text-2xl font-bold">Category Distribution of Dictionary Entries (Tree)</h3>
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
@@ -53,7 +53,7 @@ export default function Page() {
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
                             <div className="flex w-full items-center border-b border-b-gray-200">
                                 <Tooltip style="dark" content="표준 사전 카테고리 분포 트리맵">
-                                    <h3 className="cursor-default pb-3 text-2xl font-bold">Category Distribution of Dictionary Entries (Tree)</h3>
+                                    <h3 className="cursor-default pb-3 text-2xl font-bold">Category Distribution of Dictionary Entries (Radar)</h3>
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
