@@ -2,6 +2,8 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+ENV KUBE_API_URL=http://192.168.30.100:32563
+
 RUN npm install -g pnpm
 
 COPY package.json pnpm-lock.yaml ./

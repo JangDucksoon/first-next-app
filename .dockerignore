@@ -20,7 +20,7 @@ yarn-error.log*
 Dockerfile
 .dockerignore
 
-# Ignore env
+# Ignore
 .env
 .env.local
 .env.* # .env로 시작하는 모든 파일 포함

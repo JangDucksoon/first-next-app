@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { FloatingLabel } from 'flowbite-react';
 import { AlertCircleIcon } from 'lucide-react';
@@ -13,13 +13,15 @@ import { Alert, AlertDescription, AlertTitle } from '@/component/elements/alert'
 import { alertBox } from '@/lib/alert-store';
 import { httpLogin } from '@/lib/login-module';
 
-export default function SigninForm({ from }: { from?: string }) {
+export default function SigninForm() {
     const [loginForm, setLoginForm] = useState<LoginType>({ id: '', password: '' });
     const [firstRender, setFirstRender] = useState(true);
     const { replace, refresh } = useRouter();
     const validateResult = loginSchema.safeParse(loginForm);
     const errorForm = validateResult.success ? {} : validateResult.error.flatten().fieldErrors;
     const errorArray: Array<string> = validateResult.success ? [] : Object.values(errorForm).flat(1);
+    const searchParam = useSearchParams();
+    const from = searchParam.get('from') || '';
 
     function stateChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
         const name = e.target.name;
