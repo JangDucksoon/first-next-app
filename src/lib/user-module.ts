@@ -26,6 +26,7 @@ export async function getUserStatus(): Promise<UserType | null> {
         const response = await axios.get(`${BASE_URL}/api/status`, { headers: axiosHeaders });
         return response.data;
     } catch (error) {
+        console.error(error);
         return null;
     }
 }

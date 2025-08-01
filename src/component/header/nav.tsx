@@ -53,23 +53,28 @@ export function MenuNavbar() {
     const navItems = [
         {
             name: 'Post',
-            link: '/post'
+            link: '/post',
+            isProtected: false
         },
         {
             name: 'Data',
-            link: '/data'
+            link: '/data',
+            isProtected: true
         },
         {
             name: 'Dashboard',
-            link: '/dashboard'
+            link: '/dashboard',
+            isProtected: true
         },
         {
             name: 'Settings',
-            link: '/settings'
+            link: '/settings',
+            isProtected: false
         },
         {
             name: 'Help',
-            link: '/help'
+            link: '/help',
+            isProtected: false
         }
     ];
 
@@ -121,7 +126,7 @@ export function MenuNavbar() {
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         ) : (
-                            <NavbarButton variant="primary" href="/login">
+                            <NavbarButton as={Link} variant="primary" href="/login">
                                 <LogIn className="hover:text-blue-500" />
                             </NavbarButton>
                         )}

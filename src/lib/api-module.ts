@@ -53,31 +53,31 @@ async function request<T>(path: string, options: RequestInit = {}, payload?: any
 export async function httpGet<T>(path: string, payload?: any, options?: RequestInit): Promise<T> {
     try {
         return await request<T>(path, { ...options, method: 'GET' }, payload);
-    } catch (error) {
-        return { message: 'Internal Server Error', status: 500 } as T;
+    } catch (error: any) {
+        return { message: error.meesage, status: 500 } as T;
     }
 }
 
 export async function httpPost<T>(path: string, payload: any, options?: RequestInit): Promise<T> {
     try {
         return await request<T>(path, { ...options, method: 'POST' }, payload);
-    } catch (error) {
-        return { message: 'Internal Server Error', status: 500 } as T;
+    } catch (error: any) {
+        return { message: error.meesage, status: 500 } as T;
     }
 }
 
 export async function httpPut<T>(path: string, payload: any, options?: RequestInit): Promise<T> {
     try {
         return await request<T>(path, { ...options, method: 'PUT' }, payload);
-    } catch (error) {
-        return { message: 'Internal Server Error', status: 500 } as T;
+    } catch (error: any) {
+        return { message: error.message, status: 500 } as T;
     }
 }
 
 export async function httpDelete<T>(path: string, payload?: any, options?: RequestInit): Promise<T> {
     try {
         return await request<T>(path, { ...options, method: 'DELETE' }, payload);
-    } catch (error) {
-        return { message: 'Internal Server Error', status: 500 } as T;
+    } catch (error: any) {
+        return { message: error.message, status: 500 } as T;
     }
 }

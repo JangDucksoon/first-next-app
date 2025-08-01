@@ -24,6 +24,7 @@ interface NavItemsProps {
     items: {
         name: string;
         link: string;
+        isProtected?: boolean;
     }[];
     className?: string;
     onItemClick?: () => void;
@@ -123,6 +124,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                     onClick={onItemClick}
                     className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
                     key={`link-${idx}`}
+                    prefetch={!item.isProtected}
                     href={item.link}
                 >
                     {hovered === idx && (

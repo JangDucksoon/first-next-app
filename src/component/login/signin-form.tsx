@@ -16,7 +16,7 @@ import { httpLogin } from '@/lib/login-module';
 export default function SigninForm() {
     const [loginForm, setLoginForm] = useState<LoginType>({ id: '', password: '' });
     const [firstRender, setFirstRender] = useState(true);
-    const { replace, refresh } = useRouter();
+    const { replace } = useRouter();
     const validateResult = loginSchema.safeParse(loginForm);
     const errorForm = validateResult.success ? {} : validateResult.error.flatten().fieldErrors;
     const errorArray: Array<string> = validateResult.success ? [] : Object.values(errorForm).flat(1);
@@ -50,7 +50,6 @@ export default function SigninForm() {
 
             const replaceUrl = from || '/';
             replace(replaceUrl);
-            refresh();
         } else {
             const message = errorArray.map((err) => `· ${err}`).join('\r\n');
             alertBox.show(message);

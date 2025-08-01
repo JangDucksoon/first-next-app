@@ -65,9 +65,10 @@ export async function middleware(request: NextRequest) {
         return nextResponse;
     }
 
+    console.log(`else`);
     return NextResponse.redirect(loginUrl);
 }
 
 export const config = {
-    matcher: ['/data/:path*', '/user/:path*', '/dashboard/:path*', '/:path*/create', '/:path*/modify']
+    matcher: ['/data/:path*', '/user/:path*', '/dashboard/:path*', '/:path*/create', '/:path*/modify', '/login']
 };

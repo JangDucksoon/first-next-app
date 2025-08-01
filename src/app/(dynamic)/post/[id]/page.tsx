@@ -75,8 +75,8 @@ export default async function Page(props: { params: Promise<PostType> }) {
                                     </Link>
                                     <Link
                                         href={`/post/${post.id}/modify`}
+                                        prefetch={false}
                                         className="rounded-xl px-4 py-2 font-normal transition-transform duration-400 hover:-translate-y-2 hover:underline"
-                                        replace
                                     >
                                         Modify →
                                     </Link>
