@@ -108,7 +108,7 @@ export function MenuNavbar() {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem className="cursor-pointer" asChild>
-                                            <Link href="/user">
+                                            <Link href="/user" prefetch={false}>
                                                 Profile
                                                 <DropdownMenuShortcut>
                                                     <Info />
