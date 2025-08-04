@@ -4,6 +4,8 @@ import Words, { WordsSkeleton } from '@/component/data/word';
 import Domains, { DomainSkeleton } from '@/component/data/domain';
 import Terms, { TermsSkeleton } from '@/component/data/term';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
     return (
         <div className="bg-gray-100 p-6">

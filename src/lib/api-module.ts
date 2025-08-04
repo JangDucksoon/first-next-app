@@ -31,6 +31,7 @@ async function request<T>(path: string, options: RequestInit = {}, payload?: any
             }
         }
     }
+
     axiosHeaders.set('Cookie', cookieHeader);
     let response;
     switch (options.method) {

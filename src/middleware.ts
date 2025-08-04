@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { RequestCookies, ResponseCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 
 import { API_URL } from './lib/env';
 
@@ -6,7 +7,6 @@ export async function middleware(request: NextRequest) {
     const fromUrl = request.nextUrl.pathname + request.nextUrl.search;
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('from', fromUrl);
-
     const cookiesStore = request.cookies;
     const cookieHeader = cookiesStore
         .getAll()
@@ -53,7 +53,7 @@ export async function middleware(request: NextRequest) {
         let nextResponse: NextResponse<unknown> | undefined;
 
         if (refreshStatus === 200) {
-            nextResponse = NextResponse.redirect(new URL(fromUrl, request.url));
+            nextResponse = NextResponse.next();
         } else {
             nextResponse = NextResponse.redirect(loginUrl);
         }
@@ -62,11 +62,26 @@ export async function middleware(request: NextRequest) {
             nextResponse.headers.append('Set-Cookie', c!);
         });
 
+        applySetCookie(request, nextResponse);
         return nextResponse;
     }
 
-    console.log(`else`);
     return NextResponse.redirect(loginUrl);
+}
+
+// 쿠키 갱신 요청 헤더 오버라이드
+function applySetCookie(req: NextRequest, res: NextResponse): void {
+    const setCookies = new ResponseCookies(res.headers);
+    const newReqHeaders = new Headers(req.headers);
+    const newReqCookies = new RequestCookies(newReqHeaders);
+
+    setCookies.getAll().forEach((cookie) => newReqCookies.set(cookie));
+
+    NextResponse.next({ request: { headers: newReqHeaders } }).headers.forEach((value, key) => {
+        if (key === 'x-middleware-override-headers' || key.startsWith('x-middleware-request-')) {
+            res.headers.set(key, value);
+        }
+    });
 }
 
 export const config = {
