@@ -124,6 +124,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                     onClick={onItemClick}
                     className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
                     key={`link-${idx}`}
+                    prefetch={item.isProtected ? false : undefined}
                     href={item.link}
                 >
                     {hovered === idx && (
