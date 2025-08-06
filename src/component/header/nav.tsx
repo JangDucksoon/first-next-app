@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Info, LogIn, LogOut } from 'lucide-react';
+import { Info, LogIn, LogOut, ChartBar } from 'lucide-react';
 
 import {
     Navbar,
@@ -107,6 +107,14 @@ export function MenuNavbar() {
                                                 Profile
                                                 <DropdownMenuShortcut>
                                                     <Info />
+                                                </DropdownMenuShortcut>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem className="cursor-pointer" asChild>
+                                            <Link href="/dashboard/user">
+                                                Users Dashboard
+                                                <DropdownMenuShortcut>
+                                                    <ChartBar />
                                                 </DropdownMenuShortcut>
                                             </Link>
                                         </DropdownMenuItem>

@@ -1,5 +1,4 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 import { RadarType } from '@/type/dashboard/dashboardType';
@@ -13,23 +12,9 @@ export default function DictionaryRadar({ words, domains, terms }: { words: Word
         { label: 'Terms', value: terms.length }
     ];
 
-    const [radarData, setRadarData] = useState(data);
-
-    //대시보드 갱신 테스트
-    useEffect(() => {
-        const newalWordCount = setInterval(() => {
-            const currentWordValue = radarData.find((d) => d.label === 'Words')?.value || 0;
-            setRadarData((prev) => [
-                { label: 'Words', value: currentWordValue - 500 > 0 ? currentWordValue - 500 : words.length },
-                ...prev.filter((item) => item.label !== 'Words')
-            ]);
-        }, 1000);
-        return () => clearInterval(newalWordCount);
-    });
-
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <RadarChart cx="50%" cy="70%" data={radarData}>
+            <RadarChart cx="50%" cy="70%" data={data}>
                 <PolarGrid />
                 <PolarAngleAxis dataKey="label" />
                 <PolarRadiusAxis domain={[0, fullMark]} />

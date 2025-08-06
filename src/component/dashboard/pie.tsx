@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Sector, SectorProps } from 'recharts';
 import { PieSectorData } from 'recharts/types/polar/Pie';
 
 import { DomainType, TermType, WordType } from '@/type/data/dataType';
-import { PieType } from '@/type/dashboard/dashboardType';
+import { PieType, RandomUserType } from '@/type/dashboard/dashboardType';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
@@ -16,26 +16,12 @@ export default function DictionaryPie({ words, domains, terms }: { words: WordTy
         { label: 'Terms', value: terms.length }
     ];
 
-    const [pieData, setPieData] = useState(data);
-
-    //대시보드 갱신 테스트
-    useEffect(() => {
-        const newalWordCount = setInterval(() => {
-            const currentWordValue = pieData.find((d) => d.label === 'Words')?.value || 0;
-            setPieData((prev) => [
-                { label: 'Words', value: currentWordValue - 500 > 0 ? currentWordValue - 500 : words.length },
-                ...prev.filter((item) => item.label !== 'Words')
-            ]);
-        }, 1000);
-        return () => clearInterval(newalWordCount);
-    });
-
     return (
         <ResponsiveContainer width="100%" height="100%">
             <PieChart>
                 <Pie
                     activeShape={renderActiveShape}
-                    data={pieData}
+                    data={data}
                     dataKey="value"
                     nameKey="label"
                     cx="50%"
@@ -73,6 +59,53 @@ export function WordsPie({ words }: { words: WordType[] }) {
         { label: 'Informal Word', value: words.filter((w) => w.frmWordYn === 'N').length },
         { label: 'Formal Word', value: words.filter((w) => w.frmWordYn === 'Y').length }
     ];
+    return (
+        <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+                <Pie
+                    activeShape={renderActiveShape}
+                    data={data}
+                    dataKey="value"
+                    nameKey="label"
+                    cx="50%"
+                    cy="90%"
+                    isAnimationActive={false}
+                    startAngle={180}
+                    endAngle={0}
+                    outerRadius={150}
+                    labelLine={false}
+                    label={({ cx, cy, midAngle, innerRadius, outerRadius, payload }) => {
+                        const RADIAN = Math.PI / 180;
+                        const radius = innerRadius + (outerRadius - innerRadius) / 2;
+                        const x = cx + radius * Math.cos(-midAngle! * RADIAN);
+                        const y = cy + radius * Math.sin(-midAngle! * RADIAN);
+
+                        return (
+                            <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontSize={12} fontWeight="bold">
+                                {payload.label}
+                            </text>
+                        );
+                    }}
+                >
+                    {data.map((d, idx) => (
+                        <Cell key={idx} fill={COLORS[idx]} cursor="pointer" />
+                    ))}
+                </Pie>
+                <Legend align="right" layout="vertical" verticalAlign="top" iconType="wye" />
+            </PieChart>
+        </ResponsiveContainer>
+    );
+}
+
+export function GenderPie({ users }: { users: RandomUserType[] }) {
+    const maleUsers = users.filter((u) => u.gender === 'male');
+    const femaleUsers = users.filter((u) => u.gender === 'female');
+
+    const data: PieType[] = [
+        { label: 'Male', value: maleUsers.length },
+        { label: 'Female', value: femaleUsers.length }
+    ];
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <PieChart>
