@@ -1,5 +1,5 @@
 'use client';
-
+import { useEffect, useState } from 'react';
 import { ResponsiveContainer, Tooltip, Treemap } from 'recharts';
 
 import { TreeType } from '@/type/dashboard/dashboardType';
@@ -11,9 +11,24 @@ export default function DictionaryTree({ words, domains, terms }: { words: WordT
         { label: 'Domains', value: domains.length },
         { label: 'Terms', value: terms.length }
     ];
+
+    const [treeData, setTreeData] = useState(data);
+
+    //대시보드 갱신 테스트
+    useEffect(() => {
+        const newalWordCount = setInterval(() => {
+            const currentWordValue = treeData.find((d) => d.label === 'Words')?.value || 0;
+            setTreeData((prev) => [
+                { label: 'Words', value: currentWordValue - 500 > 0 ? currentWordValue - 500 : words.length },
+                ...prev.filter((item) => item.label !== 'Words')
+            ]);
+        }, 1000);
+        return () => clearInterval(newalWordCount);
+    });
+
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <Treemap data={data} dataKey="value" nameKey="label" isAnimationActive={false} stroke="#fff" fill="#8884d8">
+            <Treemap data={treeData} dataKey="value" nameKey="label" isAnimationActive={false} stroke="#fff" fill="#8884d8">
                 <Tooltip />
             </Treemap>
         </ResponsiveContainer>

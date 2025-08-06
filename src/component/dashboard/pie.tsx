@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Sector, SectorProps } from 'recharts';
 import { PieSectorData } from 'recharts/types/polar/Pie';
 
@@ -16,12 +16,26 @@ export default function DictionaryPie({ words, domains, terms }: { words: WordTy
         { label: 'Terms', value: terms.length }
     ];
 
+    const [pieData, setPieData] = useState(data);
+
+    //대시보드 갱신 테스트
+    useEffect(() => {
+        const newalWordCount = setInterval(() => {
+            const currentWordValue = pieData.find((d) => d.label === 'Words')?.value || 0;
+            setPieData((prev) => [
+                { label: 'Words', value: currentWordValue - 500 > 0 ? currentWordValue - 500 : words.length },
+                ...prev.filter((item) => item.label !== 'Words')
+            ]);
+        }, 1000);
+        return () => clearInterval(newalWordCount);
+    });
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <PieChart>
                 <Pie
                     activeShape={renderActiveShape}
-                    data={data}
+                    data={pieData}
                     dataKey="value"
                     nameKey="label"
                     cx="50%"
