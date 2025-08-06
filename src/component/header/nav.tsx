@@ -53,28 +53,23 @@ export function MenuNavbar() {
     const navItems = [
         {
             name: 'Post',
-            link: '/post',
-            isProtected: false
+            link: '/post'
         },
         {
             name: 'Data',
-            link: '/data',
-            isProtected: true
+            link: '/data'
         },
         {
             name: 'Dashboard',
-            link: '/dashboard',
-            isProtected: true
+            link: '/dashboard'
         },
         {
             name: 'Settings',
-            link: '/settings',
-            isProtected: false
+            link: '/settings'
         },
         {
             name: 'Help',
-            link: '/help',
-            isProtected: false
+            link: '/help'
         }
     ];
 
@@ -108,7 +103,7 @@ export function MenuNavbar() {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem className="cursor-pointer" asChild>
-                                            <Link href="/user" prefetch={false}>
+                                            <Link href="/user">
                                                 Profile
                                                 <DropdownMenuShortcut>
                                                     <Info />

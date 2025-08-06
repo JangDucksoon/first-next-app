@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { FloatingLabel } from 'flowbite-react';
 import { AlertCircleIcon } from 'lucide-react';
@@ -16,7 +16,6 @@ import { httpLogin } from '@/lib/login-module';
 export default function SigninForm() {
     const [loginForm, setLoginForm] = useState<LoginType>({ id: '', password: '' });
     const [firstRender, setFirstRender] = useState(true);
-    const { replace } = useRouter();
     const validateResult = loginSchema.safeParse(loginForm);
     const errorForm = validateResult.success ? {} : validateResult.error.flatten().fieldErrors;
     const errorArray: Array<string> = validateResult.success ? [] : Object.values(errorForm).flat(1);
@@ -49,7 +48,7 @@ export default function SigninForm() {
             }
 
             const replaceUrl = from || '/';
-            replace(replaceUrl);
+            window.location.href = replaceUrl;
         } else {
             const message = errorArray.map((err) => `· ${err}`).join('\r\n');
             alertBox.show(message);
