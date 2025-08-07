@@ -2,9 +2,12 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { Tooltip } from 'flowbite-react';
 
-import FirstChart from './first-chart';
-import SecondChart from './second-chart';
-import ThirdChart from './third-chart';
+import { FirstUserChart } from '../first-chart';
+import { SecondUserChart } from '../second-chart';
+import { ThirdUserChart } from '../third-chart';
+import { FourthUserChart } from '../fourth-chart';
+import { FifthUserChart } from '../fifth-chart';
+import { SixthUserChart } from '../sixth-chart';
 
 import Spinner from '@/component/elements/spinner';
 import RefreshCache from '@/component/dashboard/refresh-cache';
@@ -31,7 +34,7 @@ export default function Page() {
                             </div>
                             <div className="flex w-full flex-1 pt-3">
                                 <Suspense fallback={<Spinner />}>
-                                    <FirstChart />
+                                    <FirstUserChart />
                                 </Suspense>
                             </div>
                         </div>
@@ -43,7 +46,7 @@ export default function Page() {
                             </div>
                             <div className="flex w-full flex-1 pt-3">
                                 <Suspense fallback={<Spinner />}>
-                                    <SecondChart />
+                                    <SecondUserChart />
                                 </Suspense>
                             </div>
                         </div>
@@ -55,7 +58,7 @@ export default function Page() {
                             </div>
                             <div className="flex w-full flex-1 pt-3">
                                 <Suspense fallback={<Spinner />}>
-                                    <ThirdChart />
+                                    <ThirdUserChart />
                                 </Suspense>
                             </div>
                         </div>
@@ -66,27 +69,33 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}></Suspense>
+                                <Suspense fallback={<Spinner />}>
+                                    <FourthUserChart />
+                                </Suspense>
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
                             <div className="flex w-full items-center border-b border-b-gray-200">
-                                <Tooltip style="dark" content="	국적 코드 분포">
-                                    <h3 className="cursor-default pb-3 text-2xl font-bold">Nationality Code Frequency</h3>
+                                <Tooltip style="dark" content="사용자 도시 상위 TOP 5">
+                                    <h3 className="cursor-default pb-3 text-2xl font-bold">Top 5 Cities by Users</h3>
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}></Suspense>
+                                <Suspense fallback={<Spinner />}>
+                                    <FifthUserChart />
+                                </Suspense>
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
                             <div className="flex w-full items-center border-b border-b-gray-200">
-                                <Tooltip style="dark" content="가입 연도별 사용자 분포">
-                                    <h3 className="cursor-default pb-3 text-2xl font-bold">User Registration Year Distribution</h3>
+                                <Tooltip style="dark" content="연도별 가입자 변화 추이">
+                                    <h3 className="cursor-default pb-3 text-2xl font-bold">Annual User Registration Trends</h3>
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}></Suspense>
+                                <Suspense fallback={<Spinner />}>
+                                    <SixthUserChart />
+                                </Suspense>
                             </div>
                         </div>
                     </div>

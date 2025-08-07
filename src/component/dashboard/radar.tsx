@@ -1,7 +1,7 @@
 'use client';
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip } from 'recharts';
 
-import { RadarType } from '@/type/dashboard/dashboardType';
+import { RadarType, RandomUserType } from '@/type/dashboard/dashboardType';
 import { DomainType, TermType, WordType } from '@/type/data/dataType';
 
 export default function DictionaryRadar({ words, domains, terms }: { words: WordType[]; domains: DomainType[]; terms: TermType[] }) {
@@ -39,6 +39,33 @@ export function DomainsRadar({ domains }: { domains: DomainType[] }) {
                 <PolarGrid />
                 <PolarAngleAxis dataKey="label" />
                 <PolarRadiusAxis domain={[0, maxLength]} />
+                <Radar name="Count" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                <Tooltip />
+            </RadarChart>
+        </ResponsiveContainer>
+    );
+}
+
+export function RandomUserRadar({ users }: { users: RandomUserType[] }) {
+    const nameLengthArray = users.map((u) => u.login.username.length);
+    const nameLengthGroup = nameLengthArray.reduce(
+        (acc, curr) => {
+            acc[curr] = (acc[curr] ?? 0) + 1;
+            return acc;
+        },
+        {} as { [key: string]: number }
+    );
+
+    const radarData: RadarType[] = Object.keys(nameLengthGroup)
+        .map((key) => ({ label: key, value: nameLengthGroup[key] }))
+        .sort((a, b) => Number(a.label) - Number(b.label));
+
+    return (
+        <ResponsiveContainer width="100%" height="100%">
+            <RadarChart cx="50%" cy="50%" data={radarData}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="label" />
+                <PolarRadiusAxis domain={[0, 400]} />
                 <Radar name="Count" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
                 <Tooltip />
             </RadarChart>

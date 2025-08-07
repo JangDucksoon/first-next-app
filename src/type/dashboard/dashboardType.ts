@@ -18,6 +18,11 @@ export type BarType = {
     value: number;
 };
 
+export type LineType = {
+    label: string;
+    value: number;
+};
+
 export type RandomUserType = {
     gender: 'male' | 'female';
     name: {

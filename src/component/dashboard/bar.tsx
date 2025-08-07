@@ -93,3 +93,61 @@ export function FirstInitialBar({ users }: { users: RandomUserType[] }) {
         </ResponsiveContainer>
     );
 }
+
+export function TopCitiesBar({ users, top }: { users: RandomUserType[]; top: number }) {
+    const citiesArray = users.map((u) => u.location.city);
+    const citiesCount = citiesArray.reduce(
+        (acc, curr) => {
+            acc[curr] = (acc[curr] ?? 0) + 1;
+            return acc;
+        },
+        {} as { [key: string]: number }
+    );
+    const barData: BarType[] = Object.keys(citiesCount)
+        .map((key) => ({ label: key, value: citiesCount[key] }))
+        .sort((a, b) => b.value - a.value)
+        .splice(0, top)
+        .sort((a, b) => a.label.localeCompare(b.label));
+    return (
+        <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+                layout="vertical" // ← 중요: 수평 막대로 전환
+                data={barData}
+                margin={{
+                    top: 10,
+                    right: 10,
+                    bottom: 10,
+                    left: 60 // 라벨 공간 확보
+                }}
+                barSize={20}
+            >
+                <XAxis type="number" />
+                <YAxis dataKey="label" type="category" interval={0} />
+                <Tooltip
+                    content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                            return (
+                                <div
+                                    style={{
+                                        backgroundColor: 'white',
+                                        border: '1px solid #ccc',
+                                        padding: '5px',
+                                        color: '#8884d8'
+                                    }}
+                                >
+                                    <p>{label}</p>
+                                    <p>
+                                        <b>Count:</b> {payload[0].value}
+                                    </p>
+                                </div>
+                            );
+                        }
+                        return null;
+                    }}
+                />
+                <CartesianGrid />
+                <Bar dataKey="value" fill="#8884d8" background={{ fill: '#eee' }} />
+            </BarChart>
+        </ResponsiveContainer>
+    );
+}
