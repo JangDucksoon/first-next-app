@@ -3,14 +3,17 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function RefreshCache() {
+export default function RefreshCache({ interval }: { interval: number }) {
     const { refresh } = useRouter();
 
     useEffect(() => {
         const intervalRefreshCache = setInterval(() => {
             refresh();
-        }, 5000);
-        return () => clearInterval(intervalRefreshCache);
-    }, [refresh]);
+        }, interval);
+
+        return () => {
+            clearInterval(intervalRefreshCache);
+        };
+    }, [refresh, interval]);
     return null;
 }

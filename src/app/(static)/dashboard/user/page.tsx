@@ -1,28 +1,29 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 import { Tooltip } from 'flowbite-react';
 
-import { FirstUserChart } from '../first-chart';
-import { SecondUserChart } from '../second-chart';
-import { ThirdUserChart } from '../third-chart';
-import { FourthUserChart } from '../fourth-chart';
-import { FifthUserChart } from '../fifth-chart';
-import { SixthUserChart } from '../sixth-chart';
-
-import Spinner from '@/component/elements/spinner';
 import RefreshCache from '@/component/dashboard/refresh-cache';
+import { RandomUserType } from '@/type/dashboard/dashboardType';
+import { httpGet } from '@/lib/api-module';
+import { GenderPie } from '@/component/dashboard/pie';
+import { NationalityTree } from '@/component/dashboard/tree-map';
+import { FirstInitialBar, TopCitiesBar } from '@/component/dashboard/bar';
+import { RandomUserRadar } from '@/component/dashboard/radar';
+import { RandomLine } from '@/component/dashboard/line';
 
 export const metadata: Metadata = {
-    title: 'Dashboard',
-    description: 'dashboard pages....'
+    title: 'User Dashboard',
+    description: 'user dashboard pages....'
 };
 
 export const revalidate = 5;
 
-export default function Page() {
+export default async function Page() {
+    const top = 5;
+    const users = await httpGet<RandomUserType[]>('/random-user-data', { count: 1000 });
+
     return (
         <>
-            <RefreshCache />
+            <RefreshCache interval={5000} />
             <div className="bg-gray-100 p-6">
                 <div className="mx-auto rounded-2xl bg-white p-6 shadow-lg">
                     <div className="grid grid-cols-3 gap-3">
@@ -33,9 +34,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <FirstUserChart />
-                                </Suspense>
+                                <GenderPie {...{ users }} />
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -45,9 +44,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <SecondUserChart />
-                                </Suspense>
+                                <NationalityTree {...{ users }} />
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -57,9 +54,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <ThirdUserChart />
-                                </Suspense>
+                                <FirstInitialBar {...{ users }} />
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -69,9 +64,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <FourthUserChart />
-                                </Suspense>
+                                <RandomUserRadar {...{ users }} />
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -81,9 +74,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <FifthUserChart />
-                                </Suspense>
+                                <TopCitiesBar {...{ users, top }} />
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -93,9 +84,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <SixthUserChart />
-                                </Suspense>
+                                <RandomLine {...{ users }} />
                             </div>
                         </div>
                     </div>

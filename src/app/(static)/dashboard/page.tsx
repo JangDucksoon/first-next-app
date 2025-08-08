@@ -1,28 +1,22 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 import { Tooltip } from 'flowbite-react';
 
-import FifthChart from './fifth-chart';
-import FirstChart from './first-chart';
-import FourthChart from './fourth-chart';
-import SecondChart from './second-chart';
-import SixthChart from './sixth-chart';
-import ThirdChart from './third-chart';
-
-import Spinner from '@/component/elements/spinner';
-import RefreshCache from '@/component/dashboard/refresh-cache';
+import { httpGet } from '@/lib/api-module';
+import { DomainType, TermType, WordType } from '@/type/data/dataType';
+import DictionaryPie, { WordsPie } from '@/component/dashboard/pie';
+import DictionaryTree from '@/component/dashboard/tree-map';
+import DictionaryRadar, { DomainsRadar } from '@/component/dashboard/radar';
+import { TermsBar } from '@/component/dashboard/bar';
 
 export const metadata: Metadata = {
     title: 'Dashboard',
     description: 'dashboard pages....'
 };
 
-export const revalidate = 5;
-
-export default function Page() {
+export default async function Page() {
+    const [words, domains, terms] = await Promise.all([httpGet<WordType[]>('/word'), httpGet<DomainType[]>('/domain'), httpGet<TermType[]>('/term')]);
     return (
         <>
-            <RefreshCache />
             <div className="bg-gray-100 p-6">
                 <div className="mx-auto rounded-2xl bg-white p-6 shadow-lg">
                     <div className="grid grid-cols-3 gap-3">
@@ -33,9 +27,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <FirstChart />
-                                </Suspense>
+                                <DictionaryPie {...{ words, domains, terms }} />;
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -45,9 +37,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <SecondChart />
-                                </Suspense>
+                                <DictionaryTree {...{ words, domains, terms }} />
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -57,9 +47,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <ThirdChart />
-                                </Suspense>
+                                <DictionaryRadar {...{ words, domains, terms }} />
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -69,9 +57,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <FourthChart />
-                                </Suspense>
+                                <WordsPie words={words} />
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -81,9 +67,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <FifthChart />
-                                </Suspense>
+                                <DomainsRadar domains={domains} />;
                             </div>
                         </div>
                         <div className="flex h-90 min-h-0 flex-col rounded-lg border border-gray-200 p-3">
@@ -93,9 +77,7 @@ export default function Page() {
                                 </Tooltip>
                             </div>
                             <div className="flex w-full flex-1 pt-3">
-                                <Suspense fallback={<Spinner />}>
-                                    <SixthChart />
-                                </Suspense>
+                                <TermsBar terms={terms} />
                             </div>
                         </div>
                     </div>
