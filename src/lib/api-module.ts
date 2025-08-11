@@ -55,7 +55,7 @@ export async function httpGet<T>(path: string, payload?: any, options?: RequestI
     try {
         return await request<T>(path, { ...options, method: 'GET' }, payload);
     } catch (error: any) {
-        return { message: error.meesage, status: 500 } as T;
+        return { message: error.message, status: 500 } as T;
     }
 }
 
@@ -63,7 +63,7 @@ export async function httpPost<T>(path: string, payload: any, options?: RequestI
     try {
         return await request<T>(path, { ...options, method: 'POST' }, payload);
     } catch (error: any) {
-        return { message: error.meesage, status: 500 } as T;
+        return { message: error.message, status: 500 } as T;
     }
 }
 
