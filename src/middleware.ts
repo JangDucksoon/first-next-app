@@ -54,6 +54,12 @@ export async function middleware(request: NextRequest) {
 
         if (refreshStatus === 200) {
             nextResponse = NextResponse.next();
+            //플래그용 쿠키이므로 민감정보 절대 X, 토큰이 갱신되었는지에 대한 플래그만, httpOnly false임
+            nextResponse.cookies.set('refresh_flag', '1', {
+                path: '/',
+                maxAge: 60,
+                httpOnly: false
+            });
         } else {
             nextResponse = NextResponse.redirect(loginUrl);
         }

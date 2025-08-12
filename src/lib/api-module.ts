@@ -1,11 +1,11 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { AxiosHeaders } from 'axios';
+import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 
 import apiInstance from './axios-instance-module';
 
-async function request<T>(path: string, options: RequestInit = {}, payload?: any): Promise<T> {
+async function request<T>(path: string, options: AxiosRequestConfig = {}, payload?: any): Promise<T> {
     const cookiesStore = await cookies();
     const cookieHeader = cookiesStore
         .getAll()
@@ -51,7 +51,7 @@ async function request<T>(path: string, options: RequestInit = {}, payload?: any
     return (response?.data || null) as T;
 }
 
-export async function httpGet<T>(path: string, payload?: any, options?: RequestInit): Promise<T> {
+export async function httpGet<T>(path: string, payload?: any, options?: AxiosRequestConfig): Promise<T> {
     try {
         return await request<T>(path, { ...options, method: 'GET' }, payload);
     } catch (error: any) {
@@ -59,7 +59,7 @@ export async function httpGet<T>(path: string, payload?: any, options?: RequestI
     }
 }
 
-export async function httpPost<T>(path: string, payload: any, options?: RequestInit): Promise<T> {
+export async function httpPost<T>(path: string, payload: any, options?: AxiosRequestConfig): Promise<T> {
     try {
         return await request<T>(path, { ...options, method: 'POST' }, payload);
     } catch (error: any) {
@@ -67,7 +67,7 @@ export async function httpPost<T>(path: string, payload: any, options?: RequestI
     }
 }
 
-export async function httpPut<T>(path: string, payload: any, options?: RequestInit): Promise<T> {
+export async function httpPut<T>(path: string, payload: any, options?: AxiosRequestConfig): Promise<T> {
     try {
         return await request<T>(path, { ...options, method: 'PUT' }, payload);
     } catch (error: any) {
@@ -75,7 +75,7 @@ export async function httpPut<T>(path: string, payload: any, options?: RequestIn
     }
 }
 
-export async function httpDelete<T>(path: string, payload?: any, options?: RequestInit): Promise<T> {
+export async function httpDelete<T>(path: string, payload?: any, options?: AxiosRequestConfig): Promise<T> {
     try {
         return await request<T>(path, { ...options, method: 'DELETE' }, payload);
     } catch (error: any) {

@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { z } from 'zod';
-import { FloatingLabel } from 'flowbite-react';
+import { Button, FloatingLabel } from 'flowbite-react';
 import { AlertCircleIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -13,14 +13,22 @@ import { Alert, AlertDescription, AlertTitle } from '@/component/elements/alert'
 import { alertBox } from '@/lib/alert-store';
 import { httpLogin } from '@/lib/login-module';
 
-export default function SigninForm() {
+export function SigninFormBoundary({ modal }: { modal?: boolean }) {
+    return (
+        <Suspense>
+            <SigninForm modal={modal} />
+        </Suspense>
+    );
+}
+
+export default function SigninForm({ modal }: { modal?: boolean }) {
     const [loginForm, setLoginForm] = useState<LoginType>({ id: '', password: '' });
     const [firstRender, setFirstRender] = useState(true);
     const validateResult = loginSchema.safeParse(loginForm);
     const errorForm = validateResult.success ? {} : validateResult.error.flatten().fieldErrors;
     const errorArray: Array<string> = validateResult.success ? [] : Object.values(errorForm).flat(1);
     const searchParam = useSearchParams();
-    const from = searchParam.get('from') || '';
+    const from = searchParam.get('from') || '/';
 
     function stateChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
         const name = e.target.name;
@@ -47,7 +55,7 @@ export default function SigninForm() {
                 result.picture = '/images/default-user.png';
             }
 
-            const replaceUrl = from || '/';
+            const replaceUrl = from;
             window.location.href = replaceUrl;
         } else {
             const message = errorArray.map((err) => `· ${err}`).join('\r\n');
@@ -93,6 +101,12 @@ export default function SigninForm() {
                 </button>
 
                 <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
+
+                {modal ? (
+                    <Button color="dark" outline className="relative w-full cursor-pointer p-[3px] text-base font-normal" onClick={() => window.history.back()}>
+                        &larr; Back
+                    </Button>
+                ) : null}
             </form>
 
             {errorArray.length > 0 && !firstRender && (

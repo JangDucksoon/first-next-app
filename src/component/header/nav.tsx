@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Info, LogIn, LogOut, ChartBar } from 'lucide-react';
 
 import {
@@ -32,7 +32,6 @@ import {
 } from '@/component/elements/dropdown-menu';
 
 export function MenuNavbar() {
-    const { push } = useRouter();
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -46,8 +45,9 @@ export function MenuNavbar() {
         if (result.status !== 200) {
             alertBox.show(result.message);
         }
+
         logout();
-        push(pathname);
+        window.location.href = pathname;
     }
 
     const navItems = [
