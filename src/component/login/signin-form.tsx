@@ -103,7 +103,13 @@ export default function SigninForm({ modal }: { modal?: boolean }) {
                 <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
                 {modal ? (
-                    <Button color="dark" outline className="relative w-full cursor-pointer p-[3px] text-base font-normal" onClick={() => window.history.back()}>
+                    <Button
+                        type="button"
+                        color="dark"
+                        outline
+                        className="relative w-full cursor-pointer p-[3px] text-base font-normal"
+                        onClick={() => window.history.back()}
+                    >
                         &larr; Back
                     </Button>
                 ) : null}
